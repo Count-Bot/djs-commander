@@ -1,7 +1,7 @@
 import { Client, ClientOptions, Snowflake } from 'discord.js';
 import { CommanderError } from '../index.js';
 import { CommanderClientOptions } from '../typings/client.js';
-import { logger } from '../logging/logging.js';
+import { logger } from '../logging/index.js';
 
 export class CommanderClient extends Client {
 	private readonly superusers: Set<Snowflake>;

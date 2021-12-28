@@ -1,3 +1,3 @@
-export * from './client';
-export * from './error';
-export * from './typings';
+export * from './client/index.js';
+export * from './error/index.js';
+export * from './typings/index.js';
