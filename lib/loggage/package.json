@@ -1,7 +1,7 @@
 {
-	"name": "djs-commander",
+	"name": "loggage",
 	"version": "1.0.0",
-	"description": "CommandHandler for discord.js",
+	"description": "Simple logging package.",
 	"main": "build/index.js",
 	"type": "module",
 	"author": "Rick-vm",
@@ -15,9 +15,5 @@
 	},
 	"scripts": {
 		"app": "tsc && node ."
-	},
-	"dependencies": {
-		"discord.js": "^13.4.0",
-		"loggage": "file:lib/loggage"
 	}
 }

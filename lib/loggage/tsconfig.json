@@ -62,7 +62,6 @@
 	},
 	"exclude": [
 		"./oldsrc/",
-		"./build/",
-		"./lib/"
+		"./build/"
 	]
 }
