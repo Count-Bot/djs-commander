@@ -16,22 +16,24 @@ export class CommanderClient extends Client {
 		logger.info('CommanderClient initialised');
 	}
 
-	public enableSuperuser(id: Snowflake) {
+	public enableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
 			logger.error(new CommanderError('NO_SUPERUSER', id));
 			return;
 		}
 
 		this.activeSuperusers.add(id);
+		logger.info(`Superuser with id '${id}' enabled.`);
 	}
 
-	public disableSuperuser(id: Snowflake) {
+	public disableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
 			logger.error(new CommanderError('NO_SUPERUSER', id));
 			return;
 		}
 
 		this.activeSuperusers.delete(id);
+		logger.info(`Superuser with id '${id}' disabled.`);
 	}
 
 	public login(token?: string): Promise<string> | never {
@@ -43,9 +45,6 @@ export class CommanderClient extends Client {
 			return res;
 		} catch (e) {
 			logger.fatal_error(e);
-
-			// Kill child processes
-			process.exit(1);
 
 			throw e;
 		}
