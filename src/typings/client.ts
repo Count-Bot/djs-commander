@@ -1,6 +1,7 @@
-import { PresenceData, Snowflake } from 'discord.js';
+import { Snowflake } from 'discord.js';
 
 export interface CommanderClientOptions {
 	superusers: Snowflake[],
-	status?: PresenceData,
+	stagingGuilds: Snowflake[],
+	privateGuilds: Snowflake[],
 }
