@@ -11,14 +11,16 @@ import { REST } from '@discordjs/rest';
 export class CommanderCommandHandler {
 	private readonly client: CommanderClient;
 	private readonly commands: Map<string, CommanderCommand>;
+	private readonly _categories: Map<string, CommanderCommand[]>;
 	private readonly commandData: CommanderCommandHandlerCommandData;
 	private readonly callbacks: Readonly<CommanderCommandHandlerCallbacks>;
 	private readonly rest: REST;
 
 	constructor({ client, callbacks }: CommanderCommandHandlerOptions) {
 		this.client = client;
-
+		
 		this.commands = new Map();
+		this._categories = new Map();
 
 		this.commandData = {
 			release: [],
@@ -34,6 +36,9 @@ export class CommanderCommandHandler {
 	private addCommand(command: CommanderCommand): void {
 		this.commands.set(command.data.name, command);
 
+		if (!this._categories.has(command.category)) this._categories.set(command.category, []);
+		this._categories.get(command.category)!.push(command);
+
 		switch (command.mode) {
 			case CommanderCommandMode.RELEASE:
 				this.commandData.release.push(command.data);
@@ -47,6 +52,10 @@ export class CommanderCommandHandler {
 		}
 
 		logger.info(`Loaded command: ${command.data.name}`);
+	}
+
+	public get categories(): Map<string, readonly CommanderCommand[]> {
+		return this._categories;
 	}
 
 	public async loadCommands(directory: string): Promise<void> {

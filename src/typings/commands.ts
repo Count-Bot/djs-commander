@@ -45,6 +45,7 @@ export interface CommanderCommandPermissionOptions {
 }
 
 export interface CommanderCommandOptions {
+	category: string,
 	data: SlashCommandBuilder,
 	mode: CommanderCommandMode,
 	permissions: CommanderCommandPermissionOptions, 

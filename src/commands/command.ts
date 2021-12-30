@@ -4,13 +4,15 @@ import { CommanderClient, CommanderCommanderExecuteFn, CommanderCommandMode, Com
 import { logger } from '../logging/index.js';
 
 export class CommanderCommand {
+	public readonly category: string;
 	public readonly data: Readonly<RESTPostAPIApplicationCommandsJSONBody>;
 	public readonly mode: CommanderCommandMode;
 	private readonly permissions: CommanderCommandPermissionOptions;
 	private readonly execute: CommanderCommanderExecuteFn;
 
-	constructor({ data: commandData, mode, permissions, execute  }: CommanderCommandOptions) {
-		this.data = commandData.toJSON();
+	constructor({ category, data, mode, permissions, execute  }: CommanderCommandOptions) {
+		this.category = category;
+		this.data = data.toJSON();
 		this.mode = mode;
 		this.permissions = permissions;
 		this.execute = execute;
