@@ -101,18 +101,18 @@ export class CommanderCommandHandler {
 	}
 
 	public updateStagingCommands(): void {
-		for (const guildID of this.client.stagingGuilds) {
+		for (const guildId of this.client.stagingGuilds) {
 			this.updateCommands(
-				Routes.applicationGuildCommands(this.client.user!.id, guildID), 
+				Routes.applicationGuildCommands(this.client.user!.id, guildId), 
 				this.commandData.staging
 			);
 		}
 	}
 
 	public updatePrivateCommands(): void {
-		for (const guildID of this.client.privateGuilds) {
+		for (const guildId of this.client.privateGuilds) {
 			this.updateCommands(
-				Routes.applicationGuildCommands(this.client.user!.id, guildID), 
+				Routes.applicationGuildCommands(this.client.user!.id, guildId), 
 				this.commandData.private
 			);
 		}
