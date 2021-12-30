@@ -33,47 +33,8 @@ export class CommanderCommandHandler {
 		this.rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN!);
 	}
 
-	private addCommand(command: CommanderCommand): void {
-		this.commands.set(command.data.name, command);
-
-		if (!this._categories.has(command.category)) this._categories.set(command.category, []);
-		this._categories.get(command.category)!.push(command);
-
-		switch (command.mode) {
-			case CommanderCommandMode.RELEASE:
-				this.commandData.release.push(command.data);
-				break;
-			case CommanderCommandMode.STAGING:
-				this.commandData.staging.push(command.data);
-				break;
-			case CommanderCommandMode.PRIVATE:
-				this.commandData.private.push(command.data);
-				break;
-		}
-
-		logger.info(`Loaded command: ${command.data.name}`);
-	}
-
 	public get categories(): Map<string, readonly CommanderCommand[]> {
 		return this._categories;
-	}
-
-	public async loadCommands(directory: string): Promise<void> {
-		for (const dirent of readdirSync(directory, { withFileTypes: true })) {
-			const path = `${directory}/${dirent.name}`;
-
-			if (dirent.isDirectory()) {
-				this.loadCommands(path);
-			} else if (dirent.isFile() && dirent.name.endsWith('.js')) {
-				const command = (await import(path)).default;
-
-				if (!(command instanceof CommanderCommand)) {
-					throw new CommanderError('NOT_A_COMMAND', path);
-				}
-
-				this.addCommand(command);
-			}
-		}
 	}
 	
 	public run(commandName: string, interaction: BaseCommandInteraction): void {
@@ -142,5 +103,44 @@ export class CommanderCommandHandler {
 				logger.error(err);
 			}
 		})();
+	}
+
+	private addCommand(command: CommanderCommand): void {
+		this.commands.set(command.data.name, command);
+
+		if (!this._categories.has(command.category)) this._categories.set(command.category, []);
+		this._categories.get(command.category)!.push(command);
+
+		switch (command.mode) {
+			case CommanderCommandMode.RELEASE:
+				this.commandData.release.push(command.data);
+				break;
+			case CommanderCommandMode.STAGING:
+				this.commandData.staging.push(command.data);
+				break;
+			case CommanderCommandMode.PRIVATE:
+				this.commandData.private.push(command.data);
+				break;
+		}
+
+		logger.info(`Loaded command: ${command.data.name}`);
+	}
+
+	public async loadCommands(directory: string): Promise<void> {
+		for (const dirent of readdirSync(directory, { withFileTypes: true })) {
+			const path = `${directory}/${dirent.name}`;
+
+			if (dirent.isDirectory()) {
+				this.loadCommands(path);
+			} else if (dirent.isFile() && dirent.name.endsWith('.js')) {
+				const command = (await import(path)).default;
+
+				if (!(command instanceof CommanderCommand)) {
+					throw new CommanderError('NOT_A_COMMAND', path);
+				}
+
+				this.addCommand(command);
+			}
+		}
 	}
 }
