@@ -11,8 +11,8 @@ readFile('./logs/errors.json', 'utf8', (err, data) => {
 });
 
 export function registerError(error: CommanderError): void {
-	if (!(error.code in errorLogData)) errorLogData[error.code] = 1;
-	else errorLogData[error.code]!++;
+	errorLogData[error.code] ??= 0;
+	errorLogData[error.code]!++;
 
 	writeFile(
 		'./logs/errors.json', 

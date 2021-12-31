@@ -30,7 +30,7 @@ export class CommanderCommandHandler {
 
 		this.callbacks = callbacks;
 
-		this.rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN!);
+		this.rest = new REST({ version: '9' }).setToken(process.env.RELEASE_MODE === 'RELEASE' ? process.env.DISCORD_TOKEN! : process.env.STAGING_DISCORD_TOKEN!);
 	}
 
 	public get categories(): Map<string, readonly CommanderCommand[]> {
