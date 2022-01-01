@@ -1,10 +1,8 @@
 import { errors } from '../index.js';
 
-export type Errors = typeof errors;
+export type CommanderErrors = typeof errors;
 
-export type CommanderErrorCodes = ReturnType<Errors[keyof Errors]>['code'];
-
-export interface CommanderErrorData {
-	code: CommanderErrorCodes,
+export interface BaseExceptionData {
+	code: string,
 	message: string,
 }

@@ -1,2 +1,3 @@
-export * from './commander_error.js';
+export * from './base.js';
+export * from './error.js';
 export * from './errors.js';
