@@ -1,12 +1,11 @@
-import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord-api-types';
-import { BaseCommandInteraction } from 'discord.js';
+import { CommandInteraction, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { logger } from '../logging/index.js';
 import { CommanderCommandHandlerCallbacks, CommanderCommandHandlerCommandData, CommanderCommandHandlerOptions, CommanderCommandMode, PermissionResponse } from '../typings/index.js';
 import { CommanderCommand } from './command.js';
 import { readdirSync } from 'fs';
-import { REST } from '@discordjs/rest';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/rest/v9';
 
 export class CommanderCommandHandler {
 	private readonly client: CommanderClient;
@@ -14,7 +13,6 @@ export class CommanderCommandHandler {
 	private readonly _categories: Map<string, CommanderCommand[]>;
 	private readonly commandData: CommanderCommandHandlerCommandData;
 	private readonly callbacks: Readonly<CommanderCommandHandlerCallbacks>;
-	private readonly rest: REST;
 
 	constructor({ client, callbacks }: CommanderCommandHandlerOptions) {
 		this.client = client;
@@ -29,15 +27,13 @@ export class CommanderCommandHandler {
 		};
 
 		this.callbacks = callbacks;
-
-		this.rest = new REST({ version: '9' }).setToken(process.env.RELEASE_MODE === 'RELEASE' ? process.env.DISCORD_TOKEN! : process.env.STAGING_DISCORD_TOKEN!);
 	}
 
 	public get categories(): Map<string, readonly CommanderCommand[]> {
 		return this._categories;
 	}
 	
-	public run(commandName: string, interaction: BaseCommandInteraction): void {
+	public run(commandName: string, interaction: CommandInteraction): void {
 		const command = this.commands.get(commandName);
 
 		if (!command) {
@@ -45,7 +41,7 @@ export class CommanderCommandHandler {
 			return;
 		}
 		
-		const isAllowed = command.isAllowed(interaction, this.client);
+		const isAllowed = command.getPermission(interaction, this.client);
 
 		switch (isAllowed) {
 			case PermissionResponse.NO_PERMISSION:
@@ -63,46 +59,40 @@ export class CommanderCommandHandler {
 		}
 	}
 
-	public updateReleaseCommands(): void {
-		this.updateCommands(
-			Routes.applicationCommands(this.client.user!.id), 
+	public updateReleaseCommands(): Promise<void> {
+		return this.updateCommands(
 			this.commandData.release
 		);
 	}
 
-	public updateStagingCommands(): void {
+	public async updateStagingCommands(): Promise<void> {
 		for (const guildId of this.client.stagingGuilds) {
-			this.updateCommands(
-				Routes.applicationGuildCommands(this.client.user!.id, guildId), 
-				this.commandData.staging
+			await this.updateCommands(
+				this.commandData.staging,
+				guildId
 			);
 		}
 	}
 
-	public updatePrivateCommands(): void {
+	public async updatePrivateCommands(): Promise<void> {
 		for (const guildId of this.client.privateGuilds) {
-			this.updateCommands(
-				Routes.applicationGuildCommands(this.client.user!.id, guildId), 
-				this.commandData.private
+			await this.updateCommands(
+				this.commandData.private,
+				guildId
 			);
 		}
 	}
 
-	private updateCommands(route: `/${string}`, commands: RESTPostAPIApplicationCommandsJSONBody[]): void {
-		(async () => {
-			try {
-				logger.info('Started updating commands for route: ' + route);
+	private async updateCommands(commands: RESTPostAPIApplicationCommandsJSONBody[], id?: Snowflake): Promise<void> {
+		try {
+			logger.info('Started updating commands for: ' + (id ? id : 'global'));
 
-				await this.rest.put(
-					route,
-					{ body: commands },
-				);
+			await this.client.application!.commands.set(commands, id!);
 
-				logger.info('Succesfully updated commands for route: ' + route);
-			} catch (err) {
-				logger.error(err);
-			}
-		})();
+			logger.info('Succesfully updated commands for: ' + (id ? id : 'global'));
+		} catch (err) {
+			logger.error(err);
+		}
 	}
 
 	private addCommand(command: CommanderCommand): void {
@@ -117,7 +107,9 @@ export class CommanderCommandHandler {
 				break;
 			case CommanderCommandMode.STAGING:
 				this.commandData.staging.push(command.data);
+				this.commandData.private.push(command.data);
 				break;
+			case CommanderCommandMode.PRIVATE_NO_SUPERUSER:
 			case CommanderCommandMode.PRIVATE:
 				this.commandData.private.push(command.data);
 				break;
@@ -133,7 +125,7 @@ export class CommanderCommandHandler {
 			if (dirent.isDirectory()) {
 				this.loadCommands(path);
 			} else if (dirent.isFile() && dirent.name.endsWith('.js')) {
-				const command = (await import(path)).default;
+				const command = (await import('../../../../' + path)).default;
 
 				if (!(command instanceof CommanderCommand)) {
 					throw new CommanderError('NOT_A_COMMAND', path);

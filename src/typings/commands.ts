@@ -1,13 +1,12 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
-import { Awaitable, BaseCommandInteraction, PermissionString } from 'discord.js';
+import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
 import { CommanderCommand } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
 
 export interface CommanderCommandHandlerCallbacks {
-	onNoPermissions: (command: CommanderCommand, interaction: BaseCommandInteraction) => Awaitable<void>,
-	onNoSuperuser: (command: CommanderCommand, interaction: BaseCommandInteraction) => Awaitable<void>,
-	onNoStaging: (command: CommanderCommand, interaction: BaseCommandInteraction) => Awaitable<void>,
+	onNoPermissions: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
+	onNoSuperuser: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
+	onNoStaging: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
 }
 
 export interface CommanderCommandHandlerOptions {
@@ -15,15 +14,19 @@ export interface CommanderCommandHandlerOptions {
 	callbacks: CommanderCommandHandlerCallbacks
 }
 
-export type CommanderCommanderExecuteFn = (interaction: BaseCommandInteraction) =>  Awaitable<void>; 
+export type CommanderCommanderExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 
 
 export enum CommanderCommandMode {
+	/**
+	 * The command is only available in the development guild but is available to anyone.
+	 */
+	PRIVATE_NO_SUPERUSER,
 	/**
 	 * The command is only available in the development guild and is only available to superusers.
 	 */
 	PRIVATE,
 	/**
-	 * The command is only available in the development guild.
+	 * The command is only available in the staging guilds.
 	 */
 	STAGING,
 	/**
@@ -46,9 +49,10 @@ export interface CommanderCommandPermissionOptions {
 
 export interface CommanderCommandOptions {
 	category: string,
-	data: SlashCommandBuilder,
+	data: RESTPostAPIApplicationCommandsJSONBody,
 	mode: CommanderCommandMode,
-	permissions: CommanderCommandPermissionOptions, 
+	permissions: CommanderCommandPermissionOptions,
+	ephemeral: boolean, 
 	execute: CommanderCommanderExecuteFn,
 }
 

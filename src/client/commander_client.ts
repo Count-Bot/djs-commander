@@ -23,7 +23,7 @@ export class CommanderClient extends Client {
 
 	public enableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
-			logger.error(new CommanderError('NO_SUPERUSER', id));
+			logger.warning(new CommanderError('NO_SUPERUSER', id));
 			return;
 		}
 
@@ -34,7 +34,7 @@ export class CommanderClient extends Client {
 
 	public disableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
-			logger.error(new CommanderError('NO_SUPERUSER', id));
+			logger.warning(new CommanderError('NO_SUPERUSER', id));
 			return;
 		}
 
@@ -48,7 +48,7 @@ export class CommanderClient extends Client {
 	}
 
 	public isStagingGuild(id: Snowflake): boolean {
-		return this.stagingGuilds.includes(id);
+		return this.stagingGuilds.includes(id) || this.privateGuilds.includes(id);
 	}
 
 	public login(token?: string): Promise<string> | never {
