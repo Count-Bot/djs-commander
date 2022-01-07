@@ -1,4 +1,4 @@
-import { CommandInteraction, Snowflake } from 'discord.js';
+import { CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { logger } from '../logging/index.js';
@@ -91,6 +91,11 @@ export class CommanderCommandHandler {
 
 			logger.info('Succesfully updated commands for: ' + (id ? id : 'global'));
 		} catch (err) {
+			if ((err as DiscordAPIError)?.code === 50001) {
+				logger.debug(`Didn't update commands for ${id ? id : 'global'} because this shard doesn't have access to that guild`);
+				return;
+			}
+
 			logger.error(err);
 		}
 	}
