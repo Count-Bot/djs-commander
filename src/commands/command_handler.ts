@@ -2,19 +2,19 @@ import { CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { logger } from '../logging/index.js';
-import { CommanderCommandHandlerCallbacks, CommanderCommandHandlerCommandData, CommanderCommandHandlerOptions, CommanderCommandMode, PermissionResponse } from '../typings/index.js';
-import { CommanderCommand } from './command.js';
+import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
+import { Command } from './command.js';
 import { readdirSync } from 'fs';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/rest/v9';
 
-export class CommanderCommandHandler {
+export class CommandHandler {
 	private readonly client: CommanderClient;
-	private readonly commands: Map<string, CommanderCommand>;
-	private readonly _categories: Map<string, CommanderCommand[]>;
-	private readonly commandData: CommanderCommandHandlerCommandData;
-	private readonly callbacks: Readonly<CommanderCommandHandlerCallbacks>;
+	private readonly commands: Map<string, Command>;
+	private readonly _categories: Map<string, Command[]>;
+	private readonly commandData: CommandHandlerCommandData;
+	private readonly callbacks: Readonly<CommandHandlerCallbacks>;
 
-	constructor({ client, callbacks }: CommanderCommandHandlerOptions) {
+	constructor({ client, callbacks }: CommandHandlerOptions) {
 		this.client = client;
 		
 		this.commands = new Map();
@@ -29,7 +29,7 @@ export class CommanderCommandHandler {
 		this.callbacks = callbacks;
 	}
 
-	public get categories(): Map<string, readonly CommanderCommand[]> {
+	public get categories(): Map<string, readonly Command[]> {
 		return this._categories;
 	}
 	
@@ -100,22 +100,22 @@ export class CommanderCommandHandler {
 		}
 	}
 
-	private addCommand(command: CommanderCommand): void {
+	private addCommand(command: Command): void {
 		this.commands.set(command.data.name, command);
 
 		if (!this._categories.has(command.category)) this._categories.set(command.category, []);
 		this._categories.get(command.category)!.push(command);
 
 		switch (command.mode) {
-			case CommanderCommandMode.RELEASE:
+			case CommandMode.RELEASE:
 				this.commandData.release.push(command.data);
 				break;
-			case CommanderCommandMode.STAGING:
+			case CommandMode.STAGING:
 				this.commandData.staging.push(command.data);
 				this.commandData.private.push(command.data);
 				break;
-			case CommanderCommandMode.PRIVATE_NO_SUPERUSER:
-			case CommanderCommandMode.PRIVATE:
+			case CommandMode.PRIVATE_NO_SUPERUSER:
+			case CommandMode.PRIVATE:
 				this.commandData.private.push(command.data);
 				break;
 		}
@@ -132,7 +132,7 @@ export class CommanderCommandHandler {
 			} else if (dirent.isFile() && dirent.name.endsWith('.js')) {
 				const command = (await import('../../../../' + path)).default;
 
-				if (!(command instanceof CommanderCommand)) {
+				if (!(command instanceof Command)) {
 					throw new CommanderError('NOT_A_COMMAND', path);
 				}
 

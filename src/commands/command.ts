@@ -1,17 +1,17 @@
 import { CommandInteraction } from 'discord.js';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
-import { CommanderClient, CommanderCommanderExecuteFn, CommanderCommandMode, CommanderCommandOptions, CommanderCommandPermissionOptions, PermissionResponse } from '../index.js';
+import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
 import { logger } from '../logging/index.js';
 
-export class CommanderCommand {
+export class Command {
 	public readonly category: string;
 	public readonly data: Readonly<RESTPostAPIApplicationCommandsJSONBody>;
-	public readonly mode: CommanderCommandMode;
-	public readonly permissions: Readonly<CommanderCommandPermissionOptions>;
+	public readonly mode: CommandMode;
+	public readonly permissions: Readonly<CommandPermissionOptions>;
 	public readonly ephemeral: boolean;
-	private readonly execute: CommanderCommanderExecuteFn;
+	private readonly execute: CommandExecuteFn;
 
-	constructor({ category, data, mode, permissions, ephemeral, execute  }: CommanderCommandOptions) {
+	constructor({ category, data, mode, permissions, ephemeral, execute  }: CommandOptions) {
 		this.category = category;
 		this.data = data;
 		this.mode = mode;
@@ -35,7 +35,7 @@ export class CommanderCommand {
 	public getPermission(interaction: CommandInteraction, client: CommanderClient): PermissionResponse {
 		if (client.isActiveSuperuser(interaction.user.id)) return PermissionResponse.ALLOWED;
 
-		if (this.permissions.superuserOnly || this.mode === CommanderCommandMode.PRIVATE) return PermissionResponse.NO_SUPERUSER;
+		if (this.permissions.superuserOnly || this.mode === CommandMode.PRIVATE) return PermissionResponse.NO_SUPERUSER;
 
 		if (this.permissions.permissions.length > 0 && !this.permissions.permissions.some(
 			permissions => permissions.every(
@@ -43,7 +43,7 @@ export class CommanderCommand {
 			)
 		)) return PermissionResponse.NO_PERMISSION;
 
-		if (this.mode === CommanderCommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) 
+		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) 
 			return PermissionResponse.NO_STAGING;
 
 		return PermissionResponse.ALLOWED;

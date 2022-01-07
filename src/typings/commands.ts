@@ -1,22 +1,22 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
 import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
-import { CommanderCommand } from '../commands/index.js';
+import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
 
-export interface CommanderCommandHandlerCallbacks {
-	onNoPermissions: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
-	onNoSuperuser: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
-	onNoStaging: (command: CommanderCommand, interaction: CommandInteraction) => Awaitable<void>,
+export interface CommandHandlerCallbacks {
+	onNoPermissions: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
+	onNoSuperuser: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
+	onNoStaging: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
 }
 
-export interface CommanderCommandHandlerOptions {
+export interface CommandHandlerOptions {
 	client: CommanderClient,
-	callbacks: CommanderCommandHandlerCallbacks
+	callbacks: CommandHandlerCallbacks
 }
 
-export type CommanderCommanderExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 
+export type CommandExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 
 
-export enum CommanderCommandMode {
+export enum CommandMode {
 	/**
 	 * The command is only available in the development guild but is available to anyone.
 	 */
@@ -35,7 +35,7 @@ export enum CommanderCommandMode {
 	RELEASE,
 }
 
-export interface CommanderCommandPermissionOptions {
+export interface CommandPermissionOptions {
 	/**
 	 * The permissions required to execute the command.
 	 * Highest level array operator is OR and lowest level array operator is AND.
@@ -47,13 +47,13 @@ export interface CommanderCommandPermissionOptions {
 	superuserOnly: boolean,
 }
 
-export interface CommanderCommandOptions {
+export interface CommandOptions {
 	category: string,
 	data: RESTPostAPIApplicationCommandsJSONBody,
-	mode: CommanderCommandMode,
-	permissions: CommanderCommandPermissionOptions,
+	mode: CommandMode,
+	permissions: CommandPermissionOptions,
 	ephemeral: boolean, 
-	execute: CommanderCommanderExecuteFn,
+	execute: CommandExecuteFn,
 }
 
 export enum PermissionResponse {
@@ -63,7 +63,7 @@ export enum PermissionResponse {
 	NO_STAGING,
 }
 
-export interface CommanderCommandHandlerCommandData {
+export interface CommandHandlerCommandData {
 	release: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
 	staging: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
 	private: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
