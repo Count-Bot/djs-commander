@@ -132,7 +132,7 @@ export class CommandHandler {
 			const path = `${directory}/${dirent.name}`;
 
 			if (dirent.isDirectory()) {
-				this.loadCommands(path);
+				await this.loadCommands(path);
 			} else if (dirent.isFile() && dirent.name.endsWith('.js')) {
 				const command = (await import('../../../../' + path)).default;
 
