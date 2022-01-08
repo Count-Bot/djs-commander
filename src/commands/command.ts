@@ -1,7 +1,6 @@
 import { CommandInteraction } from 'discord.js';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
 import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
-import { logger } from '../logging/index.js';
 
 export class Command {
 	public readonly category: string;
@@ -21,15 +20,11 @@ export class Command {
 	}
 
 	public async run(interaction: CommandInteraction): Promise<void> {
-		try {
-			await interaction.deferReply({
-				ephemeral: this.ephemeral,
-			});
+		await interaction.deferReply({
+			ephemeral: this.ephemeral,
+		});
 
-			await this.execute(interaction);
-		} catch (err) {
-			logger.error(err);
-		}
+		await this.execute(interaction);
 	}
 
 	public getPermission(interaction: CommandInteraction, client: CommanderClient): PermissionResponse {

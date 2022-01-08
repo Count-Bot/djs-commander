@@ -1,17 +1,19 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
 import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
+import { LoggerOptions } from 'loggage';
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
 
 export interface CommandHandlerCallbacks {
-	onNoPermissions: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
-	onNoSuperuser: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
-	onNoStaging: (command: Command, interaction: CommandInteraction) => Awaitable<void>,
+	onNoPermissions: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onNoSuperuser: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onNoStaging: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
 }
 
 export interface CommandHandlerOptions {
-	client: CommanderClient,
-	callbacks: CommandHandlerCallbacks
+	client: CommanderClient;
+	callbacks: CommandHandlerCallbacks;
+	logger: LoggerOptions;
 }
 
 export type CommandExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 
@@ -40,20 +42,20 @@ export interface CommandPermissionOptions {
 	 * The permissions required to execute the command.
 	 * Highest level array operator is OR and lowest level array operator is AND.
 	 */
-	permissions: [PermissionString, ...PermissionString[]][],
+	permissions: [PermissionString, ...PermissionString[]][];
 	/**
 	 * Only available to superusers.
 	 */
-	superuserOnly: boolean,
+	superuserOnly: boolean;
 }
 
 export interface CommandOptions {
-	category: string,
-	data: RESTPostAPIApplicationCommandsJSONBody,
-	mode: CommandMode,
-	permissions: CommandPermissionOptions,
-	ephemeral: boolean, 
-	execute: CommandExecuteFn,
+	category: string;
+	data: RESTPostAPIApplicationCommandsJSONBody;
+	mode: CommandMode;
+	permissions: CommandPermissionOptions;
+	ephemeral: boolean;
+	execute: CommandExecuteFn;
 }
 
 export enum PermissionResponse {

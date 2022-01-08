@@ -1,11 +1,11 @@
 import { CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
-import { logger } from '../logging/index.js';
 import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
 import { Command } from './command.js';
 import { readdirSync } from 'fs';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/rest/v9';
+import { Logger } from 'loggage';
 
 export class CommandHandler {
 	private readonly client: CommanderClient;
@@ -13,8 +13,9 @@ export class CommandHandler {
 	private readonly _categories: Map<string, Command[]>;
 	private readonly commandData: CommandHandlerCommandData;
 	private readonly callbacks: Readonly<CommandHandlerCallbacks>;
+	private readonly logger: Logger;
 
-	constructor({ client, callbacks }: CommandHandlerOptions) {
+	constructor({ client, callbacks, logger }: CommandHandlerOptions) {
 		this.client = client;
 		
 		this.commands = new Map();
@@ -27,6 +28,8 @@ export class CommandHandler {
 		};
 
 		this.callbacks = callbacks;
+
+		this.logger = new Logger(logger);
 	}
 
 	public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): Readonly<CommandHandlerCommandData[T]> {
@@ -37,11 +40,11 @@ export class CommandHandler {
 		return this._categories;
 	}
 	
-	public run(commandName: string, interaction: CommandInteraction): void {
+	public async run(commandName: string, interaction: CommandInteraction): Promise<void> {
 		const command = this.commands.get(commandName);
 
 		if (!command) {
-			logger.error(new CommanderError('COMMAND_DOESNT_EXIST', commandName));
+			this.logger.error(new CommanderError('COMMAND_DOESNT_EXIST', commandName));
 			return;
 		}
 		
@@ -58,7 +61,11 @@ export class CommandHandler {
 				this.callbacks.onNoStaging(command, interaction);
 				return;
 			default:
-				command.run(interaction);
+				try {
+					await command.run(interaction);
+				} catch (err) {
+					this.logger.error(err);
+				}
 				break;
 		}
 	}
@@ -89,18 +96,18 @@ export class CommandHandler {
 
 	private async updateCommands(commands: RESTPostAPIApplicationCommandsJSONBody[], id?: Snowflake): Promise<void> {
 		try {
-			logger.info('Started updating commands for: ' + (id ? id : 'global'));
+			this.logger.info('Started updating commands for: ' + (id ? id : 'global'));
 
 			await this.client.application!.commands.set(commands, id!);
 
-			logger.info('Succesfully updated commands for: ' + (id ? id : 'global'));
+			this.logger.info('Succesfully updated commands for: ' + (id ? id : 'global'));
 		} catch (err) {
 			if ((err as DiscordAPIError)?.code === 50001) {
-				logger.debug(`Didn't update commands for ${id ? id : 'global'} because this shard doesn't have access to that guild`);
+				this.logger.debug(`Didn't update commands for ${id ? id : 'global'} probably because this shard doesn't have access to that guild`);
 				return;
 			}
 
-			logger.error(err);
+			this.logger.error(err);
 		}
 	}
 
@@ -124,7 +131,7 @@ export class CommandHandler {
 				break;
 		}
 
-		logger.info(`Loaded command: ${command.data.name}`);
+		this.logger.info(`Loaded command: ${command.data.name}`);
 	}
 
 	public async loadCommands(directory: string): Promise<void> {
