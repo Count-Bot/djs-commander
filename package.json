@@ -15,11 +15,13 @@
 	},
 	"scripts": {
 		"app": "tsc && node .",
-		"check": "tsc --noEmit && eslint . --cache --fix"
+		"check": "tsc --noEmit && eslint . --cache --fix",
+		"build": "tsc",
+		"prepare": "npm run build"
 	},
 	"dependencies": {
 		"discord-api-types": "^0.26.1",
 		"discord.js": "^13.4.0",
-		"loggage": "file:lib/loggage"
+		"loggage": "github:LuyxDevelopment/loggage"
 	}
 }
