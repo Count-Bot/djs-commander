@@ -22,6 +22,6 @@
 	"dependencies": {
 		"discord-api-types": "^0.26.1",
 		"discord.js": "^13.4.0",
-		"loggage": "github:LuyxDevelopment/loggage"
+		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
 	}
 }
