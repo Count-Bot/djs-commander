@@ -29,6 +29,10 @@ export class CommandHandler {
 		this.callbacks = callbacks;
 	}
 
+	public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): Readonly<CommandHandlerCommandData[T]> {
+		return this.commandData[type];
+	}
+
 	public get categories(): Map<string, readonly Command[]> {
 		return this._categories;
 	}
