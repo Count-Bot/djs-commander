@@ -1,6 +1,6 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
 import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
-import { LoggerOptions } from 'loggage';
+import { Logger } from 'loggage';
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
 
@@ -13,7 +13,7 @@ export interface CommandHandlerCallbacks {
 export interface CommandHandlerOptions {
 	client: CommanderClient;
 	callbacks: CommandHandlerCallbacks;
-	logger: LoggerOptions;
+	logger: Logger;
 }
 
 export type CommandExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 

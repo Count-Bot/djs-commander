@@ -29,7 +29,7 @@ export class CommandHandler {
 
 		this.callbacks = callbacks;
 
-		this.logger = new Logger(logger);
+		this.logger = logger;
 	}
 
 	public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): Readonly<CommandHandlerCommandData[T]> {
