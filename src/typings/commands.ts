@@ -8,6 +8,7 @@ export interface CommandHandlerCallbacks {
 	onNoPermissions: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
 	onNoSuperuser: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
 	onNoStaging: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onCommandError: (command: Command, interaction: CommandInteraction, err: unknown) => Awaitable<void>;
 }
 
 export interface CommandHandlerOptions {

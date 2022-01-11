@@ -65,6 +65,7 @@ export class CommandHandler {
 					await command.run(interaction);
 				} catch (err) {
 					this.logger.error(err);
+					this.callbacks.onCommandError(command, interaction, err);
 				}
 				break;
 		}
