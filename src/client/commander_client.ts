@@ -24,6 +24,10 @@ export class CommanderClient extends Client {
 		this.logger.info('CommanderClient initialised');
 	}
 
+	public isSuperuser(id: Snowflake): boolean {
+		return this.superusers.has(id);
+	}
+
 	public enableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
 			this.logger.warning(new CommanderError('NO_SUPERUSER', id));
