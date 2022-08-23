@@ -1,7 +1,7 @@
 {
 	"name": "djs-commander",
 	"version": "1.0.0",
-	"description": "CommandHandler for discord.js",
+	"description": "Command handler for discord.js",
 	"main": "build/index.js",
 	"type": "module",
 	"author": "Rick-vm",
@@ -20,8 +20,8 @@
 		"prepare": "npm run build"
 	},
 	"dependencies": {
-		"discord-api-types": "^0.26.1",
-		"discord.js": "^13.4.0",
-		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
+		"discord-api-types": "^0.37.4",
+		"discord.js": "^14.3.0",
+		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
 	}
 }

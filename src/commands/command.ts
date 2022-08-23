@@ -1,5 +1,5 @@
 import { CommandInteraction } from 'discord.js';
-import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
 
 export class Command {
@@ -10,7 +10,7 @@ export class Command {
 	public readonly ephemeral: boolean;
 	private readonly execute: CommandExecuteFn;
 
-	constructor({ category, data, mode, permissions, ephemeral, execute  }: CommandOptions) {
+	constructor({ category, data, mode, permissions, ephemeral, execute }: CommandOptions) {
 		this.category = category;
 		this.data = data;
 		this.mode = mode;
@@ -38,7 +38,7 @@ export class Command {
 			)
 		)) return PermissionResponse.NO_PERMISSION;
 
-		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) 
+		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!))
 			return PermissionResponse.NO_STAGING;
 
 		return PermissionResponse.ALLOWED;

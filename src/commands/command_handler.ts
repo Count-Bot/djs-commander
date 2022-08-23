@@ -4,7 +4,7 @@ import { CommanderError } from '../error/index.js';
 import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
 import { Command } from './command.js';
 import { readdirSync } from 'fs';
-import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/rest/v9';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { Logger } from 'loggage';
 
 export class CommandHandler {
@@ -17,7 +17,7 @@ export class CommandHandler {
 
 	constructor({ client, callbacks, logger }: CommandHandlerOptions) {
 		this.client = client;
-		
+
 		this.commands = new Map();
 		this._categories = new Map();
 
@@ -39,7 +39,7 @@ export class CommandHandler {
 	public get categories(): Map<string, readonly Command[]> {
 		return this._categories;
 	}
-	
+
 	public async run(commandName: string, interaction: CommandInteraction): Promise<void> {
 		const command = this.commands.get(commandName);
 
@@ -47,7 +47,7 @@ export class CommandHandler {
 			this.logger.error(new CommanderError('COMMAND_DOESNT_EXIST', commandName));
 			return;
 		}
-		
+
 		const isAllowed = command.getPermission(interaction, this.client);
 
 		switch (isAllowed) {
