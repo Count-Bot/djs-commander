@@ -10,9 +10,9 @@ export abstract class BaseException<Errors extends { [K in string]: (...args: ne
 		super();
 		const data = this.getErrorFunc(name)(...args);
 		this.message = data.message;
-		this.name = `CommanderError [${name}] (${data.code})`;
+		this.name = `CommanderError [${String(name)}] (${data.code})`;
 		this.code = data.code;
-		
+
 		if (Error.captureStackTrace) Error.captureStackTrace(this, this.constructor);
 
 		this.register();
@@ -23,9 +23,9 @@ export abstract class BaseException<Errors extends { [K in string]: (...args: ne
 		BaseException.errorLogData[this.code]++;
 
 		writeFile(
-			'./logs/errors.json', 
-			JSON.stringify(BaseException.errorLogData), 
-			(err) => { if (err) throw err;}
+			'./logs/errors.json',
+			JSON.stringify(BaseException.errorLogData),
+			(err) => { if (err) throw err; }
 		);
 	}
 

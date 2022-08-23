@@ -1,5 +1,5 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
+import { Awaitable, CommandInteraction, PermissionResolvable } from 'discord.js';
 import { Logger } from 'loggage';
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
@@ -43,7 +43,7 @@ export interface CommandPermissionOptions {
 	 * The permissions required to execute the command.
 	 * Highest level array operator is OR and lowest level array operator is AND.
 	 */
-	permissions: [PermissionString, ...PermissionString[]][];
+	permissions: [PermissionResolvable, ...PermissionResolvable[]][];
 	/**
 	 * Only available to superusers.
 	 */
