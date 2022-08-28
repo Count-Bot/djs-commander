@@ -1,5 +1,4 @@
-import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
-import { Awaitable, CommandInteraction, PermissionString } from 'discord.js';
+import { ApplicationCommandDataResolvable, Awaitable, CommandInteraction, PermissionString } from 'discord.js';
 import { Logger } from 'loggage';
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
@@ -17,7 +16,7 @@ export interface CommandHandlerOptions {
 	logger: Logger;
 }
 
-export type CommandExecuteFn = (interaction: CommandInteraction) =>  Awaitable<void>; 
+export type CommandExecuteFn = (interaction: CommandInteraction) => Awaitable<void>;
 
 export enum CommandMode {
 	/**
@@ -52,7 +51,7 @@ export interface CommandPermissionOptions {
 
 export interface CommandOptions {
 	category: string;
-	data: RESTPostAPIApplicationCommandsJSONBody;
+	data: ApplicationCommandDataResolvable;
 	mode: CommandMode;
 	permissions: CommandPermissionOptions;
 	ephemeral: boolean;
@@ -67,7 +66,7 @@ export enum PermissionResponse {
 }
 
 export interface CommandHandlerCommandData {
-	release: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
-	staging: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
-	private: Readonly<RESTPostAPIApplicationCommandsJSONBody>[];
+	release: Readonly<ApplicationCommandDataResolvable>[];
+	staging: Readonly<ApplicationCommandDataResolvable>[];
+	private: Readonly<ApplicationCommandDataResolvable>[];
 }
