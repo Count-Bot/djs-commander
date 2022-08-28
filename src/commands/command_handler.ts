@@ -1,9 +1,10 @@
-import { ApplicationCommandDataResolvable, CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
+import { CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
 import { Command } from './command.js';
 import { readdirSync } from 'fs';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/rest/v9';
 import { Logger } from 'loggage';
 
 export class CommandHandler {
@@ -94,7 +95,7 @@ export class CommandHandler {
 		}
 	}
 
-	private async updateCommands(commands: ApplicationCommandDataResolvable[], id?: Snowflake): Promise<void> {
+	private async updateCommands(commands: RESTPostAPIApplicationCommandsJSONBody[], id?: Snowflake): Promise<void> {
 		try {
 			this.logger.info('Started updating commands for: ' + (id ? id : 'global'));
 

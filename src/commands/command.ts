@@ -1,15 +1,16 @@
-import { ApplicationCommandDataResolvable, CommandInteraction } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types';
 import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
 
 export class Command {
 	public readonly category: string;
-	public readonly data: Readonly<ApplicationCommandDataResolvable>;
+	public readonly data: Readonly<RESTPostAPIApplicationCommandsJSONBody>;
 	public readonly mode: CommandMode;
 	public readonly permissions: Readonly<CommandPermissionOptions>;
 	public readonly ephemeral: boolean;
 	private readonly execute: CommandExecuteFn;
 
-	constructor({ category, data, mode, permissions, ephemeral, execute }: CommandOptions) {
+	constructor({ category, data, mode, permissions, ephemeral, execute  }: CommandOptions) {
 		this.category = category;
 		this.data = data;
 		this.mode = mode;
@@ -37,7 +38,7 @@ export class Command {
 			)
 		)) return PermissionResponse.NO_PERMISSION;
 
-		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!))
+		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) 
 			return PermissionResponse.NO_STAGING;
 
 		return PermissionResponse.ALLOWED;
