@@ -6,13 +6,6 @@
 	"type": "module",
 	"author": "Rick-vm",
 	"license": "MIT",
-	"devDependencies": {
-		"@types/node": "^16.11.4",
-		"@typescript-eslint/eslint-plugin": "^5.1.0",
-		"@typescript-eslint/parser": "^5.1.0",
-		"eslint": "^7.32.0",
-		"typescript": "^4.4.4"
-	},
 	"scripts": {
 		"app": "tsc && node .",
 		"check": "tsc --noEmit && eslint . --cache --fix",
@@ -20,8 +13,15 @@
 		"prepare": "npm run build"
 	},
 	"dependencies": {
-		"discord-api-types": "^0.37.4",
-		"discord.js": "^14.3.0",
-		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
+		"discord-api-types": "^0.37.14",
+		"discord.js": "^14.6.0",
+		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
+	},
+	"devDependencies": {
+		"@types/node": "^18.11.2",
+		"@typescript-eslint/eslint-plugin": "^5.1.0",
+		"@typescript-eslint/parser": "^5.1.0",
+		"eslint": "^8.25.0",
+		"typescript": "^4.8.4"
 	}
 }
