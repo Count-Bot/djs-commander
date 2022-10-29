@@ -18,7 +18,7 @@
 		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.2",
+		"@types/node": "^18.11.7",
 		"@typescript-eslint/eslint-plugin": "^5.1.0",
 		"@typescript-eslint/parser": "^5.1.0",
 		"eslint": "^8.25.0",
