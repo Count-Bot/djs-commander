@@ -1,4 +1,4 @@
-import { CommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction, CommandInteraction } from 'discord.js';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
 
@@ -19,7 +19,7 @@ export class Command {
 		this.execute = execute;
 	}
 
-	public async run(interaction: CommandInteraction): Promise<void> {
+	public async run(interaction: ChatInputCommandInteraction): Promise<void> {
 		await interaction.deferReply({
 			ephemeral: this.ephemeral,
 		});

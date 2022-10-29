@@ -1,4 +1,4 @@
-import { CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
+import { ChatInputCommandInteraction, CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
@@ -40,7 +40,7 @@ export class CommandHandler {
 		return this._categories;
 	}
 
-	public async run(commandName: string, interaction: CommandInteraction): Promise<void> {
+	public async run(commandName: string, interaction: ChatInputCommandInteraction): Promise<void> {
 		const command = this.commands.get(commandName);
 
 		if (!command) {
