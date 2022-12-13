@@ -14,7 +14,7 @@
 	},
 	"dependencies": {
 		"discord-api-types": "^0.37.14",
-		"discord.js": "14.6.0",
+		"discord.js": "14.3.0",
 		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
 	},
 	"devDependencies": {
