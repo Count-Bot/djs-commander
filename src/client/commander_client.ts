@@ -46,10 +46,10 @@ export class CommanderClient extends Client {
 		}
 
 		this.activeSuperusers.delete(id);
-		
+
 		this.logger.info(`Superuser with id '${id}' disabled`);
 	}
-	
+
 	public isActiveSuperuser(id: Snowflake): boolean {
 		return this.activeSuperusers.has(id);
 	}

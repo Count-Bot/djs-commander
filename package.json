@@ -7,21 +7,20 @@
 	"author": "Rick-vm",
 	"license": "MIT",
 	"scripts": {
-		"app": "tsc && node .",
 		"check": "tsc --noEmit && eslint . --cache --fix",
 		"build": "tsc",
 		"prepare": "npm run build"
 	},
 	"dependencies": {
-		"discord-api-types": "^0.37.14",
-		"discord.js": "14.3.0",
+		"discord-api-types": "^0.37.23",
+		"discord.js": "^14.7.1",
 		"loggage": "git+https://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:x-oauth-basic@github.com/LuyxDevelopment/loggage.git"
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.7",
-		"@typescript-eslint/eslint-plugin": "^5.1.0",
-		"@typescript-eslint/parser": "^5.1.0",
-		"eslint": "^8.25.0",
-		"typescript": "^4.8.4"
+		"@types/node": "^18.11.16",
+		"@typescript-eslint/eslint-plugin": "^5.46.1",
+		"@typescript-eslint/parser": "^5.46.1",
+		"eslint": "^8.30.0",
+		"typescript": "^4.9.4"
 	}
 }

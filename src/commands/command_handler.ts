@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, CommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
+import { ChatInputCommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
