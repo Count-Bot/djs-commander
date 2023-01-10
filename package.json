@@ -5,6 +5,7 @@
 	"main": "build/index.js",
 	"type": "module",
 	"author": "Rick-vm",
+	"private": true,
 	"license": "MIT",
 	"scripts": {
 		"check": "tsc --noEmit && eslint . --cache --fix",
