@@ -24,13 +24,23 @@ export class CommanderClient extends Client {
 		this.logger.info('CommanderClient initialised');
 	}
 
+	/**
+	 * Check if user is a super user
+	 * @param {Snowflake} id User ID
+	 * @returns {boolean} `true` or `false`
+	 */
 	public isSuperuser(id: Snowflake): boolean {
 		return this.superusers.has(id);
 	}
 
+	/**
+	 * Enable super user for user
+	 * @param {Snowflake} id User ID
+	 */
 	public enableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
 			this.logger.warning(new CommanderError('NO_SUPERUSER', id));
+
 			return;
 		}
 
@@ -39,6 +49,10 @@ export class CommanderClient extends Client {
 		this.logger.info(`Superuser with id '${id}' enabled`);
 	}
 
+	/**
+	 * Disable super user for user
+	 * @param {Snowflake} id User ID
+	 */
 	public disableSuperuser(id: Snowflake): void {
 		if (!this.superusers.has(id)) {
 			this.logger.warning(new CommanderError('NO_SUPERUSER', id));
@@ -50,19 +64,34 @@ export class CommanderClient extends Client {
 		this.logger.info(`Superuser with id '${id}' disabled`);
 	}
 
+	/**
+	 * Check if user has super user enabled
+	 * @param {Snowflake} id User ID
+	 * @returns {boolean} `true` or `false`
+	 */
 	public isActiveSuperuser(id: Snowflake): boolean {
 		return this.activeSuperusers.has(id);
 	}
 
+	/**
+	 * Check if guild is staging
+	 * @param {Snowflake} id Guild ID
+	 * @returns {boolean} `true` or `false`
+	 */
 	public isStagingGuild(id: Snowflake): boolean {
 		return this.stagingGuilds.includes(id) || this.privateGuilds.includes(id);
 	}
 
+	/**
+	 * Better Client.login method
+	 * @param {string} [token] 
+	 * @returns {Promise<string> | never}
+	 */
 	public login(token?: string): Promise<string> | never {
 		try {
 			const res = super.login(token);
 
-			this.logger.info('Client logged in');
+			this.logger.info('Client Successful Login');
 
 			return res;
 		} catch (err) {

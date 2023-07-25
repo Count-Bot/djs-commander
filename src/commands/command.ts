@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, CommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, CommandPermissionOptions, PermissionResponse } from '../index.js';
 
@@ -19,6 +19,10 @@ export class Command {
 		this.execute = execute;
 	}
 
+	/**
+	 * Run the command. Be sure to evaluate the command type in client.on('interactionCreate')
+	 * @param {ChatInputCommandInteraction} interaction 
+	 */
 	public async run(interaction: ChatInputCommandInteraction): Promise<void> {
 		await interaction.deferReply({
 			ephemeral: this.ephemeral,
@@ -27,19 +31,27 @@ export class Command {
 		await this.execute(interaction);
 	}
 
-	public getPermission(interaction: CommandInteraction, client: CommanderClient): PermissionResponse {
-		if (client.isActiveSuperuser(interaction.user.id)) return PermissionResponse.ALLOWED;
+	/**
+	 * Get the PermissionResponse evaluation of the user and command
+	 * @param {ChatInputCommandInteraction} interaction 
+	 * @param {CommanderClient} client 
+	 */
+	public getPermission(interaction: ChatInputCommandInteraction, client: CommanderClient): PermissionResponse {
+		if (client.isActiveSuperuser(interaction.user.id)) {
+			return PermissionResponse.ALLOWED;
+		}
 
-		if (this.permissions.superuserOnly || this.mode === CommandMode.PRIVATE) return PermissionResponse.NO_SUPERUSER;
+		if (this.permissions.superuserOnly || this.mode === CommandMode.PRIVATE) {
+			return PermissionResponse.NO_SUPERUSER;
+		}
 
-		if (this.permissions.permissions.length > 0 && !this.permissions.permissions.some(
-			permissions => permissions.every(
-				permission => interaction.memberPermissions?.has(permission)
-			)
-		)) return PermissionResponse.NO_PERMISSION;
+		if (this.permissions.permissions.length > 0 && !this.permissions.permissions.some(permissions => permissions.every(permission => interaction.memberPermissions?.has(permission)))) {
+			return PermissionResponse.NO_PERMISSION;
+		}
 
-		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!))
+		if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) {
 			return PermissionResponse.NO_STAGING;
+		}
 
 		return PermissionResponse.ALLOWED;
 	}

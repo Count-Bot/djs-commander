@@ -32,6 +32,11 @@ export class CommandHandler {
 		this.logger = logger;
 	}
 
+	/**
+	 * Get command data of release, staging or private
+	 * @param {string} type - `release`, `staging` or `private`
+	 * @returns {Readonly<CommandHandlerCommandData[T]>} Command data
+	 */
 	public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): Readonly<CommandHandlerCommandData[T]> {
 		return this.commandData[type];
 	}
@@ -40,6 +45,11 @@ export class CommandHandler {
 		return this._categories;
 	}
 
+	/**
+	 * Attempt to run the command
+	 * @param {string} commandName - The name of the command to run
+	 * @param {ChatInputCommandInteraction} interaction - The interaction from the interactionCreate event 
+	 */
 	public async run(commandName: string, interaction: ChatInputCommandInteraction): Promise<void> {
 		const command = this.commands.get(commandName);
 
@@ -71,12 +81,18 @@ export class CommandHandler {
 		}
 	}
 
+	/**
+	 * Update `CommandMode.Release` commands
+	 */
 	public updateReleaseCommands(): Promise<void> {
 		return this.updateCommands(
 			this.commandData.release
 		);
 	}
 
+	/**
+	 * Update `CommandMode.Staging` commands
+	 */
 	public async updateStagingCommands(): Promise<void> {
 		for (const guildId of this.client.stagingGuilds) {
 			await this.updateCommands(
@@ -86,6 +102,9 @@ export class CommandHandler {
 		}
 	}
 
+	/**
+	 * Update `CommandMode.Private` commands
+	 */
 	public async updatePrivateCommands(): Promise<void> {
 		for (const guildId of this.client.privateGuilds) {
 			await this.updateCommands(
@@ -135,6 +154,11 @@ export class CommandHandler {
 		this.logger.info(`Loaded command: ${command.data.name}`);
 	}
 
+	/**
+	 * Load commands. Run this on startup.
+	 * Allows for sub-directories e.g. `/commands/admin/config.js`
+	 * @param directory - Directory path. Use build path e.g. `./build/commands/`
+	 */
 	public async loadCommands(directory: string): Promise<void> {
 		for (const dirent of readdirSync(directory, { withFileTypes: true })) {
 			const path = `${directory}/${dirent.name}`;
