@@ -7,13 +7,7 @@ export class Command {
 	public readonly data: Readonly<RESTPostAPIApplicationCommandsJSONBody>;
 	public readonly mode: CommandMode;
 	public readonly permissions: Readonly<CommandPermissionOptions>;
-	/**
-	 * Whether or not command is ephemeral (user only).
-	 */
 	public readonly ephemeral: boolean;
-	/**
-	 * Command functionality. Put command code here.
-	 */
 	private readonly execute: CommandExecuteFn;
 
 	constructor({ category, data, mode, permissions, ephemeral, execute }: CommandOptions) {
@@ -30,6 +24,10 @@ export class Command {
 	 * @param {ChatInputCommandInteraction} interaction 
 	 */
 	public async run(interaction: ChatInputCommandInteraction): Promise<void> {
+		await interaction.deferReply({
+			ephemeral: this.ephemeral,
+		});
+
 		await this.execute(interaction);
 	}
 

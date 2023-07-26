@@ -58,10 +58,6 @@ export class CommandHandler {
 			return;
 		}
 
-		await interaction.deferReply({
-			ephemeral: command.ephemeral,
-		});
-
 		const isAllowed = command.getPermission(interaction, this.client);
 
 		switch (isAllowed) {
