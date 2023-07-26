@@ -58,19 +58,23 @@ export class CommandHandler {
 			return;
 		}
 
+		await interaction.deferReply({
+			ephemeral: command.ephemeral,
+		});
+
 		const isAllowed = command.getPermission(interaction, this.client);
 
 		switch (isAllowed) {
-			case PermissionResponse.NO_PERMISSION:
+			case PermissionResponse.NO_PERMISSION: {
 				this.callbacks.onNoPermissions(command, interaction);
-				return;
-			case PermissionResponse.NO_SUPERUSER:
+			} break;
+			case PermissionResponse.NO_SUPERUSER: {
 				this.callbacks.onNoSuperuser(command, interaction);
-				return;
-			case PermissionResponse.NO_STAGING:
+			} break;
+			case PermissionResponse.NO_STAGING: {
 				this.callbacks.onNoStaging(command, interaction);
-				return;
-			default:
+			} break;
+			case PermissionResponse.ALLOWED:
 				try {
 					await command.run(interaction);
 				} catch (err) {
