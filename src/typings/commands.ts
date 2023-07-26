@@ -1,5 +1,5 @@
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { Awaitable, ChatInputCommandInteraction, CommandInteraction, PermissionResolvable } from 'discord.js';
+import { Awaitable, ChatInputCommandInteraction, PermissionResolvable } from 'discord.js';
 import { Logger } from 'loggage';
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
@@ -8,28 +8,28 @@ export interface CommandHandlerCallbacks {
 	/**
 	 * Callback when the user's permissions do not meet the minimum permissions of the command
 	 * @param {Command} command - The DJS-Commander Command
-	 * @param {CommandInteraction} interaction - The Command Interaction from Discord
+	 * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
 	 */
-	onNoPermissions: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onNoPermissions: (command: Command, interaction: ChatInputCommandInteraction) => Awaitable<void>;
 	/**
 	 * Callback when the user running the command is not a super user
 	 * @param {Command} command - The DJS-Commander Command
-	 * @param {CommandInteraction} interaction - The Command Interaction from Discord
+	 * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
 	 */
-	onNoSuperuser: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onNoSuperuser: (command: Command, interaction: ChatInputCommandInteraction) => Awaitable<void>;
 	/**
 	 * Callback when the user running the command is not in a staging server
 	 * @param {Command} command - The DJS-Commander Command
-	 * @param {CommandInteraction} interaction - The Command Interaction from Discord
+	 * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
 	 */
-	onNoStaging: (command: Command, interaction: CommandInteraction) => Awaitable<void>;
+	onNoStaging: (command: Command, interaction: ChatInputCommandInteraction) => Awaitable<void>;
 	/**
 	 * Callback when the Command.run() function fails
 	 * @param {Command} command - The DJS-Commander Command
-	 * @param {CommandInteraction} interaction - The Command Interaction from Discord
+	 * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
 	 * @param {unknown} err 
 	 */
-	onCommandError: (command: Command, interaction: CommandInteraction, err: unknown) => Awaitable<void>;
+	onCommandError: (command: Command, interaction: ChatInputCommandInteraction, err: unknown) => Awaitable<void>;
 }
 
 export interface CommandHandlerOptions {
