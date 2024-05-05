@@ -13,8 +13,8 @@
 		"prepare": "npm run build"
 	},
 	"dependencies": {
-		"discord-api-types": "^0.37.50",
-		"discord.js": "^14.11.0",
+		"discord-api-types": "^0.37.83",
+		"discord.js": "^14.15.2",
 		"loggage": "github:LuyxDevelopment/loggage"
 	},
 	"devDependencies": {
@@ -22,6 +22,6 @@
 		"@typescript-eslint/eslint-plugin": "^5.46.1",
 		"@typescript-eslint/parser": "^5.46.1",
 		"eslint": "^8.45.0",
-		"typescript": "^5.1.6"
+		"typescript": "^5.4.5"
 	}
 }
