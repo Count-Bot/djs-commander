@@ -13,7 +13,7 @@
 		"prepare": "npm run build"
 	},
 	"dependencies": {
-		"discord-api-types": "^0.37.83",
+		"discord-api-types": "^0.37.84",
 		"discord.js": "^14.15.2",
 		"loggage": "github:LuyxDevelopment/loggage"
 	},

@@ -61,9 +61,6 @@ export class CommandHandler {
 		const isAllowed = command.getPermission(interaction, this.client);
 
 		switch (isAllowed) {
-			case PermissionResponse.NO_PERMISSION: {
-				this.callbacks.onNoPermissions(command, interaction);
-			} break;
 			case PermissionResponse.NO_SUPERUSER: {
 				this.callbacks.onNoSuperuser(command, interaction);
 			} break;
