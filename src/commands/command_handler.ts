@@ -147,8 +147,6 @@ export class CommandHandler {
 				this.commandData.private.push(command.data);
 				break;
 		}
-
-		this.logger.info(`Loaded command: ${command.data.name}`);
 	}
 
 	/**

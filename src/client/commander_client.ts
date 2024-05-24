@@ -20,8 +20,6 @@ export class CommanderClient extends Client {
 		this.privateGuilds = privateGuilds;
 
 		this.logger = logger;
-
-		this.logger.info('CommanderClient initialised');
 	}
 
 	/**
@@ -46,7 +44,7 @@ export class CommanderClient extends Client {
 
 		this.activeSuperusers.add(id);
 
-		this.logger.info(`Superuser with id '${id}' enabled`);
+		this.logger.info(`Superuser with Discord ID '${id}' enabled`);
 	}
 
 	/**
@@ -61,7 +59,7 @@ export class CommanderClient extends Client {
 
 		this.activeSuperusers.delete(id);
 
-		this.logger.info(`Superuser with id '${id}' disabled`);
+		this.logger.info(`Superuser with Discord ID '${id}' disabled`);
 	}
 
 	/**
@@ -91,9 +89,7 @@ export class CommanderClient extends Client {
 		try {
 			const res = super.login(token);
 
-			this.logger.info('Client Successful Login');
-
-			return res;
+      return res;
 		} catch (err) {
 			this.logger.fatal_error(err);
 
