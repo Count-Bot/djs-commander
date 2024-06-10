@@ -16,6 +16,10 @@
     "@typescript-eslint"
   ],
   "settings": {},
+  "ignorePatterns": [
+    "node_modules/",
+    "build/"
+  ],
   "rules": {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-unused-vars": [

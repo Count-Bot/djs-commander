@@ -1,28 +1,28 @@
 {
-	"name": "djs-commander",
-	"version": "1.0.0",
-	"description": "Command handler for discord.js",
-	"main": "build/index.js",
-	"type": "module",
-	"author": "Rick-vm",
-	"private": true,
-	"license": "MIT",
-	"scripts": {
-		"check": "tsc --noEmit && eslint . --cache --fix",
-		"build": "tsc",
-		"prepare": "npm run build"
-	},
-	"dependencies": {
-		"discord-api-types": "^0.37.84",
-		"discord.js": "^14.15.2",
-		"loggage": "github:LuyxDevelopment/loggage"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.2.0",
-		"@types/node": "^20.4.4",
-		"eslint": "^8.57.0",
-		"eslint-plugin-jsdoc": "^48.2.3",
-		"typescript": "^5.4.5",
-		"typescript-eslint": "^7.8.0"
-	}
+  "name": "djs-commander",
+  "version": "1.0.0",
+  "description": "Command handler for discord.js",
+  "main": "build/index.js",
+  "type": "module",
+  "author": "Rick-vm",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "check": "tsc --noEmit && eslint . --cache --fix",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.88",
+    "discord.js": "^14.15.3",
+    "loggage": "github:LuyxDevelopment/loggage"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "@types/node": "^20.4.4",
+    "eslint": "^8.57.0",
+    "eslint-plugin-jsdoc": "^48.2.3",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
+  }
 }
