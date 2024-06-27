@@ -13,13 +13,12 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "discord-api-types": "^0.37.88",
     "discord.js": "^14.15.3",
     "loggage": "github:LuyxDevelopment/loggage"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
-    "@types/node": "^20.4.4",
+    "@types/node": "^20.14.9",
     "eslint": "^8.57.0",
     "eslint-plugin-jsdoc": "^48.2.3",
     "typescript": "^5.4.5",

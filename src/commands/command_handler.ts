@@ -1,11 +1,16 @@
-import { ChatInputCommandInteraction, DiscordAPIError, Snowflake } from 'discord.js';
+import {
+	ChatInputCommandInteraction, DiscordAPIError, RESTPostAPIApplicationCommandsJSONBody, Snowflake,
+} from 'discord.js';
+import { readdirSync } from 'fs';
+import { Logger } from 'loggage';
+
 import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
-import { CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode, PermissionResponse } from '../typings/index.js';
+import {
+	CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode,
+	PermissionResponse,
+} from '../typings/index.js';
 import { Command } from './command.js';
-import { readdirSync } from 'fs';
-import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { Logger } from 'loggage';
 
 export class CommandHandler {
   private readonly client: CommanderClient;

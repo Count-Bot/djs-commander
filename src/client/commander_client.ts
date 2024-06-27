@@ -1,5 +1,6 @@
 import { Client, ClientOptions, Snowflake } from 'discord.js';
 import { Logger } from 'loggage';
+
 import { CommanderError } from '../error/index.js';
 import { CommanderClientOptions } from '../typings/index.js';
 

@@ -1,6 +1,6 @@
-import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { Awaitable, ChatInputCommandInteraction } from 'discord.js';
+import type { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 import { Logger } from 'loggage';
+
 import { Command } from '../commands/index.js';
 import { CommanderClient } from '../index.js';
 
