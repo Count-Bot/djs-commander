@@ -1,5 +1,5 @@
-import { Snowflake } from 'discord.js';
-import { Logger } from 'loggage';
+import type { Snowflake } from 'discord.js';
+import type { Logger } from 'loggage';
 
 export interface CommanderClientOptions {
   /**

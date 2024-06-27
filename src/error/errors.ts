@@ -1,4 +1,4 @@
-import { Snowflake } from 'discord.js';
+import type { Snowflake } from 'discord.js';
 
 export const errors = {
   'NO_SUPERUSER': (id: Snowflake) => {

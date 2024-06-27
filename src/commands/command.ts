@@ -1,7 +1,7 @@
-import { ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
+import type { ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 
 import {
-	CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, PermissionResponse,
+  CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, PermissionResponse,
 } from '../index.js';
 
 export class Command {

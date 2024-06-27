@@ -1,4 +1,4 @@
-import { errors } from '../index.js';
+import type { errors } from '../index.js';
 
 export type Errors = typeof errors;
 

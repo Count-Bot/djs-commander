@@ -4,7 +4,6 @@ import {
 import { readdirSync } from 'fs';
 import { Logger } from 'loggage';
 
-import { CommanderClient } from '../client/index.js';
 import { CommanderError } from '../error/index.js';
 import {
 	CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode,
@@ -12,6 +11,7 @@ import {
 } from '../typings/index.js';
 import { Command } from './command.js';
 
+import type { CommanderClient } from '../client/index.js';
 export class CommandHandler {
   private readonly client: CommanderClient;
   private readonly commands: Map<string, Command>;

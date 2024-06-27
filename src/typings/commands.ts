@@ -1,8 +1,8 @@
 import type { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
-import { Logger } from 'loggage';
+import type { Logger } from 'loggage';
 
-import { Command } from '../commands/index.js';
-import { CommanderClient } from '../index.js';
+import type { Command } from '../commands/index.js';
+import type { CommanderClient } from '../index.js';
 
 export interface CommandHandlerCallbacks {
   /**
