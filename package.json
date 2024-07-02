@@ -1,27 +1,31 @@
 {
-  "name": "djs-commander",
+  "name": "@countbot/djs-commander",
   "version": "1.0.0",
   "description": "Command handler for discord.js",
-  "main": "build/index.js",
   "type": "module",
   "author": "Rick-vm",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "check": "tsc --noEmit && eslint . --cache --fix",
     "build": "tsc",
-    "prepare": "npm run build"
+    "preinstall": "npm run build",
+    "lint": "eslint src --cache --fix"
   },
   "dependencies": {
     "discord.js": "^14.15.3",
-    "loggage": "github:LuyxDevelopment/loggage"
+    "loggage": "@countbot/loggage@1.0.0"
   },
+  "bugs": {
+    "url": "https://github.com/Count-Bot/djs-commander/issues"
+  },
+  "homepage": "https://github.com/Count-Bot/djs-commander#readme",
   "devDependencies": {
-    "@eslint/js": "^9.2.0",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^8.56.0",
     "@types/node": "^20.14.9",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jsdoc": "^48.2.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-jsdoc": "^48.5.0",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0"
+    "typescript-eslint": "^7.15.0"
   }
 }
