@@ -1,13 +1,13 @@
 import {
-	ChatInputCommandInteraction, DiscordAPIError, RESTPostAPIApplicationCommandsJSONBody, Snowflake,
+  ChatInputCommandInteraction, DiscordAPIError, RESTPostAPIApplicationCommandsJSONBody, Snowflake,
 } from 'discord.js';
 import { readdirSync } from 'fs';
 import { Logger } from 'loggage';
 
 import { CommanderError } from '../error/index.js';
 import {
-	CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode,
-	PermissionResponse,
+  CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode,
+  PermissionResponse,
 } from '../typings/index.js';
 import { Command } from './command.js';
 
@@ -88,7 +88,7 @@ export class CommandHandler {
    */
   public updateReleaseCommands(): Promise<void> {
     return this.updateCommands(
-      this.commandData.release
+      this.commandData.release,
     );
   }
 
@@ -99,7 +99,7 @@ export class CommandHandler {
     for (const guildId of this.client.stagingGuilds) {
       await this.updateCommands(
         this.commandData.staging,
-        guildId
+        guildId,
       );
     }
   }
@@ -111,7 +111,7 @@ export class CommandHandler {
     for (const guildId of this.client.privateGuilds) {
       await this.updateCommands(
         this.commandData.private,
-        guildId
+        guildId,
       );
     }
   }
@@ -136,7 +136,7 @@ export class CommandHandler {
   private addCommand(command: Command): void {
     this.commands.set(command.data.name, command);
 
-    if (!this._categories.has(command.category)) this._categories.set(command.category, []);
+    if (!this._categories.has(command.category)) { this._categories.set(command.category, []); }
     this._categories.get(command.category)!.push(command);
 
     switch (command.mode) {
