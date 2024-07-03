@@ -6,14 +6,9 @@
   "author": "Rick-vm",
   "private": true,
   "license": "MIT",
-  "scripts": {
-    "build": "tsc",
-    "preinstall": "npm run build",
-    "lint": "eslint src --cache --fix"
-  },
   "dependencies": {
-    "discord.js": "^14.15.3",
-    "loggage": "@countbot/loggage@1.0.0"
+    "@countbot/loggage": "^1.1.0",
+    "discord.js": "^14.15.3"
   },
   "bugs": {
     "url": "https://github.com/Count-Bot/djs-commander/issues"
@@ -25,7 +20,16 @@
     "@types/node": "^20.14.9",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.5.0",
+    "tsx": "^4.16.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.15.0"
+  },
+  "scripts": {
+    "test:lcov": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info",
+    "test:spec": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout",
+    "build:node": "tsc",
+    "build:ci": "tsc --noEmit",
+    "preinstall": "npm run build:node",
+    "lint": "eslint src --cache --fix"
   }
 }

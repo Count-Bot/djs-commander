@@ -1,5 +1,6 @@
 import { Client, ClientOptions, Snowflake } from 'discord.js';
-import { Logger } from 'loggage';
+
+import { Loggage } from '@countbot/loggage';
 
 import { CommanderError } from '../error/index.js';
 import { CommanderClientOptions } from '../typings/index.js';
@@ -7,14 +8,15 @@ import { CommanderClientOptions } from '../typings/index.js';
 export class CommanderClient extends Client {
   public readonly stagingGuilds: readonly Snowflake[];
   public readonly privateGuilds: readonly Snowflake[];
-  private readonly superusers: Set<Snowflake>;
-  private readonly activeSuperusers: Set<Snowflake>;
-  private readonly logger: Logger;
 
-  constructor ({ superusers, stagingGuilds, privateGuilds, logger }: CommanderClientOptions, clientOptions: ClientOptions) {
+  private readonly superUsers: Set<Snowflake>;
+  private readonly activeSuperusers: Set<Snowflake>;
+  private readonly logger: Loggage;
+
+  constructor ({ superUsers, stagingGuilds, privateGuilds, logger }: CommanderClientOptions, clientOptions: ClientOptions) {
     super(clientOptions);
 
-    this.superusers = new Set(superusers);
+    this.superUsers = new Set(superUsers);
     this.activeSuperusers = new Set();
 
     this.stagingGuilds = stagingGuilds;
@@ -29,15 +31,15 @@ export class CommanderClient extends Client {
    * @returns {boolean} `true` or `false`
    */
   public isSuperuser(id: Snowflake): boolean {
-    return this.superusers.has(id);
+    return this.superUsers.has(id);
   }
 
   /**
    * Enable super user for user
    * @param {Snowflake} id User ID
    */
-  public enableSuperuser(id: Snowflake): void {
-    if (!this.superusers.has(id)) {
+  public enableSuperUser(id: Snowflake): void {
+    if (!this.superUsers.has(id)) {
       this.logger.warning(new CommanderError('NO_SUPERUSER', id));
 
       return;
@@ -53,7 +55,7 @@ export class CommanderClient extends Client {
    * @param {Snowflake} id User ID
    */
   public disableSuperuser(id: Snowflake): void {
-    if (!this.superusers.has(id)) {
+    if (!this.superUsers.has(id)) {
       this.logger.warning(new CommanderError('NO_SUPERUSER', id));
       return;
     }
@@ -74,11 +76,20 @@ export class CommanderClient extends Client {
 
   /**
    * Check if guild is staging
-   * @param {Snowflake} id Guild ID
+   * @param {Snowflake} guildId Guild ID
    * @returns {boolean} `true` or `false`
    */
-  public isStagingGuild(id: Snowflake): boolean {
-    return this.stagingGuilds.includes(id) || this.privateGuilds.includes(id);
+  public isStagingGuild(guildId: Snowflake): boolean {
+    return this.stagingGuilds.includes(guildId) || this.privateGuilds.includes(guildId);
+  }
+
+  /**
+ * Check if guild is staging
+ * @param {Snowflake} guildId Guild ID
+ * @returns {boolean} `true` or `false`
+ */
+  public isPrivateGuild(guildId: Snowflake): boolean {
+    return this.stagingGuilds.includes(guildId) || this.privateGuilds.includes(guildId);
   }
 
   /**

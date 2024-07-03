@@ -1,11 +1,11 @@
 import type { Snowflake } from 'discord.js';
-import type { Logger } from 'loggage';
+import type { Loggage } from '@countbot/loggage';
 
 export interface CommanderClientOptions {
   /**
    * Array of user IDs to be super users
    */
-  superusers: Snowflake[],
+  superUsers: Snowflake[],
   /**
    * Array of server IDs to be staging guilds
    */
@@ -17,5 +17,5 @@ export interface CommanderClientOptions {
   /**
    * Logger client
    */
-  logger: Logger,
+  logger: Loggage,
 }

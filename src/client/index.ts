@@ -1,1 +1,1 @@
-export * from './commander_client.js';
+export * from './commanderClient.js';

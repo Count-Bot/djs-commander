@@ -1,5 +1,5 @@
-import type { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
-import type { Logger } from 'loggage';
+import type { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody, Snowflake } from 'discord.js';
+import type { Loggage } from '@countbot/loggage';
 
 import type { Command } from '../commands/index.js';
 import type { CommanderClient } from '../index.js';
@@ -38,7 +38,7 @@ export interface CommandHandlerOptions {
   /**
    * Logging client
    */
-  logger: Logger;
+  logger: Loggage;
 }
 
 export type CommandExecuteFn = (interaction: ChatInputCommandInteraction) => Awaitable<void>;
@@ -102,6 +102,17 @@ export enum PermissionResponse {
    * User is not running command in a staging server and returns error
    */
   NO_STAGING,
+}
+
+export interface GetPermissionOptions {
+  /**
+   * Check a User ID's ability to run a command
+   */
+  userId: Snowflake;
+  /**
+   * Check a Guild ID's ability to run a command
+   */
+  guildId?: Snowflake;
 }
 
 export interface CommandHandlerCommandData {

@@ -1,10 +1,10 @@
 import type { Snowflake } from 'discord.js';
 
 export const errors = {
-  'NO_SUPERUSER': (id: Snowflake) => {
+  'NO_SUPERUSER': (userId: Snowflake) => {
     return {
       code: 'P001' as const,
-      message: `User with id '${id}' is not a superuser.`,
+      message: `User with Discord ID '${userId}' is not a superuser.`,
     };
   },
   'COMMAND_DOESNT_EXIST': (commandName: string) => {

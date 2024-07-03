@@ -2,7 +2,7 @@ import {
   ChatInputCommandInteraction, DiscordAPIError, RESTPostAPIApplicationCommandsJSONBody, Snowflake,
 } from 'discord.js';
 import { readdirSync } from 'fs';
-import { Logger } from 'loggage';
+import { Loggage } from '@countbot/loggage';
 
 import { CommanderError } from '../error/index.js';
 import {
@@ -12,13 +12,14 @@ import {
 import { Command } from './command.js';
 
 import type { CommanderClient } from '../client/index.js';
+
 export class CommandHandler {
   private readonly client: CommanderClient;
   private readonly commands: Map<string, Command>;
   private readonly _categories: Map<string, Command[]>;
   private readonly commandData: CommandHandlerCommandData;
   private readonly callbacks: Readonly<CommandHandlerCallbacks>;
-  private readonly logger: Logger;
+  private readonly logger: Loggage;
 
   constructor ({ client, callbacks, logger }: CommandHandlerOptions) {
     this.client = client;
@@ -63,7 +64,7 @@ export class CommandHandler {
       return;
     }
 
-    const isAllowed = command.getPermission(interaction, this.client);
+    const isAllowed = command.getPermission({ guildId: interaction.guildId ?? undefined, userId: interaction.user.id }, this.client);
 
     switch (isAllowed) {
       case PermissionResponse.NO_SUPERUSER: {

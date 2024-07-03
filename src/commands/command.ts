@@ -1,7 +1,8 @@
 import type { ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 
 import {
-  CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, PermissionResponse,
+	CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, GetPermissionOptions,
+	PermissionResponse,
 } from '../index.js';
 
 export class Command {
@@ -35,11 +36,11 @@ export class Command {
 
   /**
    * Get the PermissionResponse evaluation of the user and command
-   * @param {ChatInputCommandInteraction} interaction 
+   * @param {GetPermissionOptions} interaction 
    * @param {CommanderClient} client 
    */
-  public getPermission(interaction: ChatInputCommandInteraction, client: CommanderClient): PermissionResponse {
-    if (client.isActiveSuperuser(interaction.user.id)) {
+  public getPermission(options: GetPermissionOptions, client: CommanderClient): PermissionResponse {
+    if (client.isActiveSuperuser(options.userId)) {
       return PermissionResponse.ALLOWED;
     }
 
@@ -47,8 +48,10 @@ export class Command {
       return PermissionResponse.NO_SUPERUSER;
     }
 
-    if (this.mode === CommandMode.STAGING && !client.isStagingGuild(interaction.guildId!)) {
-      return PermissionResponse.NO_STAGING;
+    if (options.guildId) {
+      if (this.mode === CommandMode.STAGING && !client.isStagingGuild(options.guildId)) {
+        return PermissionResponse.NO_STAGING;
+      }
     }
 
     return PermissionResponse.ALLOWED;
