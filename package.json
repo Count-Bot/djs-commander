@@ -7,7 +7,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@countbot/loggage": "^1.1.0",
+    "@countbot/loggage": "^1.1.1",
     "discord.js": "^14.15.3"
   },
   "bugs": {
