@@ -9,8 +9,10 @@
     "outDir": "./build",
     "sourceMap": true,
     "declaration": true,
-    "strict": true,
+    "removeComments": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
+    "strict": true,
     "skipLibCheck": true
   },
   "include": ["./src/"]
