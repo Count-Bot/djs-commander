@@ -1,6 +1,5 @@
-import { Client, ClientOptions, Snowflake } from 'discord.js';
-
 import { Loggage } from '@countbot/loggage';
+import { Client, ClientOptions, Snowflake } from 'discord.js';
 
 import { CommanderError } from '../error/index.js';
 import { CommanderClientOptions } from '../typings/index.js';
@@ -13,16 +12,16 @@ export class CommanderClient extends Client {
   private readonly activeSuperusers: Set<Snowflake>;
   private readonly logger: Loggage;
 
-  constructor ({ superUsers, stagingGuilds, privateGuilds, logger }: CommanderClientOptions, clientOptions: ClientOptions) {
+  constructor(options: CommanderClientOptions, clientOptions: ClientOptions) {
     super(clientOptions);
 
-    this.superUsers = new Set(superUsers);
+    this.superUsers = new Set(options.superUsers);
     this.activeSuperusers = new Set();
 
-    this.stagingGuilds = stagingGuilds;
-    this.privateGuilds = privateGuilds;
+    this.stagingGuilds = options.stagingGuilds;
+    this.privateGuilds = options.privateGuilds;
 
-    this.logger = logger;
+    this.logger = options.logger;
   }
 
   /**
@@ -84,17 +83,17 @@ export class CommanderClient extends Client {
   }
 
   /**
- * Check if guild is staging
- * @param {Snowflake} guildId Guild ID
- * @returns {boolean} `true` or `false`
- */
+   * Check if guild is staging
+   * @param {Snowflake} guildId Guild ID
+   * @returns {boolean} `true` or `false`
+   */
   public isPrivateGuild(guildId: Snowflake): boolean {
     return this.stagingGuilds.includes(guildId) || this.privateGuilds.includes(guildId);
   }
 
   /**
    * Better Client.login method
-   * @param {string} [token] 
+   * @param {string} [token] Token to login with
    * @returns {Promise<string> | never}
    */
   public login(token?: string): Promise<string> | never {

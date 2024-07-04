@@ -1,17 +1,23 @@
-import {
-  ChatInputCommandInteraction, DiscordAPIError, RESTPostAPIApplicationCommandsJSONBody, Snowflake,
-} from 'discord.js';
 import { readdirSync } from 'fs';
 import { Loggage } from '@countbot/loggage';
-
-import { CommanderError } from '../error/index.js';
 import {
-  CommandHandlerCallbacks, CommandHandlerCommandData, CommandHandlerOptions, CommandMode,
-  PermissionResponse,
-} from '../typings/index.js';
+  ChatInputCommandInteraction,
+  DiscordAPIError,
+  RESTPostAPIApplicationCommandsJSONBody,
+  Snowflake,
+} from 'discord.js';
+
 import { Command } from './command.js';
 
 import type { CommanderClient } from '../client/index.js';
+import { CommanderError } from '../error/index.js';
+import {
+  CommandHandlerCallbacks,
+  CommandHandlerCommandData,
+  CommandHandlerOptions,
+  CommandMode,
+  PermissionResponse,
+} from '../typings/index.js';
 
 export class CommandHandler {
   private readonly client: CommanderClient;
@@ -21,7 +27,7 @@ export class CommandHandler {
   private readonly callbacks: Readonly<CommandHandlerCallbacks>;
   private readonly logger: Loggage;
 
-  constructor ({ client, callbacks, logger }: CommandHandlerOptions) {
+  constructor({ client, callbacks, logger }: CommandHandlerOptions) {
     this.client = client;
 
     this.commands = new Map();
@@ -41,9 +47,9 @@ export class CommandHandler {
   /**
    * Get command data of release, staging or private
    * @param {string} type - `release`, `staging` or `private`
-   * @returns {Readonly<CommandHandlerCommandData[T]>} Command data
+   * @returns {CommandHandlerCommandData} Command data
    */
-  public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): Readonly<CommandHandlerCommandData[T]> {
+  public getCommandData<T extends keyof CommandHandlerCommandData>(type: T): CommandHandlerCommandData[T] {
     return this.commandData[type];
   }
 
@@ -54,7 +60,7 @@ export class CommandHandler {
   /**
    * Attempt to run the command
    * @param {string} commandName - The name of the command to run
-   * @param {ChatInputCommandInteraction} interaction - The interaction from the interactionCreate event 
+   * @param {ChatInputCommandInteraction} interaction - The interaction from the interactionCreate event
    */
   public async run(commandName: string, interaction: ChatInputCommandInteraction): Promise<void> {
     const command = this.commands.get(commandName);
@@ -64,15 +70,21 @@ export class CommandHandler {
       return;
     }
 
-    const isAllowed = command.getPermission({ guildId: interaction.guildId ?? undefined, userId: interaction.user.id }, this.client);
+    const isAllowed = command.getPermission(
+      {
+        guildId: interaction.guildId ?? undefined,
+        userId: interaction.user.id,
+      },
+      this.client,
+    );
 
     switch (isAllowed) {
-      case PermissionResponse.NO_SUPERUSER: {
+      case PermissionResponse.NO_SUPERUSER:
         this.callbacks.onNoSuperuser(command, interaction);
-      } break;
-      case PermissionResponse.NO_STAGING: {
+        break;
+      case PermissionResponse.NO_STAGING:
         this.callbacks.onNoStaging(command, interaction);
-      } break;
+        break;
       case PermissionResponse.ALLOWED:
         try {
           await command.run(interaction);
@@ -86,11 +98,10 @@ export class CommandHandler {
 
   /**
    * Update `CommandMode.Release` commands
+   * @returns {Promise<void>}
    */
   public updateReleaseCommands(): Promise<void> {
-    return this.updateCommands(
-      this.commandData.release,
-    );
+    return this.updateCommands(this.commandData.release);
   }
 
   /**
@@ -98,10 +109,7 @@ export class CommandHandler {
    */
   public async updateStagingCommands(): Promise<void> {
     for (const guildId of this.client.stagingGuilds) {
-      await this.updateCommands(
-        this.commandData.staging,
-        guildId,
-      );
+      await this.updateCommands(this.commandData.staging, guildId);
     }
   }
 
@@ -110,23 +118,21 @@ export class CommandHandler {
    */
   public async updatePrivateCommands(): Promise<void> {
     for (const guildId of this.client.privateGuilds) {
-      await this.updateCommands(
-        this.commandData.private,
-        guildId,
-      );
+      await this.updateCommands(this.commandData.private, guildId);
     }
   }
 
   private async updateCommands(commands: RESTPostAPIApplicationCommandsJSONBody[], id?: Snowflake): Promise<void> {
     try {
-      this.logger.info('Started updating commands for: ' + (id ? id : 'global'));
+      this.logger.info(`Started updating commands for: ${id ? id : 'global'}`);
 
       await this.client.application!.commands.set(commands, id!);
 
-      this.logger.info('Succesfully updated commands for: ' + (id ? id : 'global'));
+      this.logger.info(`Succesfully updated commands for: ${id ? id : 'global'}`);
     } catch (err) {
       if ((err as DiscordAPIError)?.code === 50001) {
-        this.logger.debug(`Didn't update commands for ${id ? id : 'global'} probably because this shard doesn't have access to that guild`);
+        this.logger.debug(`Command update failed for ${id ? `guild ${id}` : 'global'}.`);
+
         return;
       }
 
@@ -137,7 +143,10 @@ export class CommandHandler {
   private addCommand(command: Command): void {
     this.commands.set(command.data.name, command);
 
-    if (!this._categories.has(command.category)) { this._categories.set(command.category, []); }
+    if (!this._categories.has(command.category)) {
+      this._categories.set(command.category, []);
+    }
+
     this._categories.get(command.category)!.push(command);
 
     switch (command.mode) {
@@ -158,7 +167,7 @@ export class CommandHandler {
   /**
    * Load commands. Run this on startup.
    * Allows for sub-directories e.g. `/commands/admin/config.js`
-   * @param directory - Directory path. Use build path e.g. `./build/commands/`
+   * @param {string} directory - Directory path. Use build path e.g. `./build/commands/`
    */
   public async loadCommands(directory: string): Promise<void> {
     for (const dirent of readdirSync(directory, { withFileTypes: true })) {
@@ -167,7 +176,7 @@ export class CommandHandler {
       if (dirent.isDirectory()) {
         await this.loadCommands(path);
       } else if (dirent.isFile() && dirent.name.endsWith('.js')) {
-        const command = (await import('../../../../../' + path)).default;
+        const command = (await import(`../../../../../${path}`)).default;
 
         if (!(command instanceof Command)) {
           throw new CommanderError('NOT_A_COMMAND', path);

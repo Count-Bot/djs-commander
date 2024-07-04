@@ -1,8 +1,12 @@
 import type { ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 
 import {
-	CommanderClient, CommandExecuteFn, CommandMode, CommandOptions, GetPermissionOptions,
-	PermissionResponse,
+  CommanderClient,
+  CommandExecuteFn,
+  CommandMode,
+  CommandOptions,
+  GetPermissionOptions,
+  PermissionResponse,
 } from '../index.js';
 
 export class Command {
@@ -13,7 +17,7 @@ export class Command {
   public readonly ephemeral: boolean;
   private readonly execute: CommandExecuteFn;
 
-  constructor ({ category, data, mode, superUserOnly, ephemeral, execute }: CommandOptions) {
+  constructor({ category, data, mode, superUserOnly, ephemeral, execute }: CommandOptions) {
     this.category = category;
     this.data = data;
     this.mode = mode;
@@ -24,7 +28,7 @@ export class Command {
 
   /**
    * Run the command. Be sure to evaluate the command type in client.on('interactionCreate')
-   * @param {ChatInputCommandInteraction} interaction 
+   * @param {ChatInputCommandInteraction} interaction - The interaction from the interactionCreate event
    */
   public async run(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply({
@@ -36,8 +40,9 @@ export class Command {
 
   /**
    * Get the PermissionResponse evaluation of the user and command
-   * @param {GetPermissionOptions} interaction 
-   * @param {CommanderClient} client 
+   * @param {GetPermissionOptions} options  - The interaction from the interactionCreate event
+   * @param {CommanderClient} client - The client
+   * @returns {PermissionResponse} The permission response
    */
   public getPermission(options: GetPermissionOptions, client: CommanderClient): PermissionResponse {
     if (client.isActiveSuperuser(options.userId)) {

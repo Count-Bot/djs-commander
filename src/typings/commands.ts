@@ -1,5 +1,5 @@
-import type { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody, Snowflake } from 'discord.js';
 import type { Loggage } from '@countbot/loggage';
+import { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody, Snowflake } from 'discord.js';
 
 import type { Command } from '../commands/index.js';
 import type { CommanderClient } from '../index.js';
@@ -7,21 +7,21 @@ import type { CommanderClient } from '../index.js';
 export interface CommandHandlerCallbacks {
   /**
    * Callback when the user running the command is not a super user
-   * @param {Command} command - The DJS-Commander Command
-   * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
+   * @param command - The DJS-Commander Command
+   * @param interaction - The Command Interaction from Discord
    */
   onNoSuperuser: (command: Command, interaction: ChatInputCommandInteraction) => Awaitable<void>;
   /**
    * Callback when the user running the command is not in a staging server
-   * @param {Command} command - The DJS-Commander Command
-   * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
+   * @param command - The DJS-Commander Command
+   * @param interaction - The Command Interaction from Discord
    */
   onNoStaging: (command: Command, interaction: ChatInputCommandInteraction) => Awaitable<void>;
   /**
    * Callback when the Command.run() function fails
-   * @param {Command} command - The DJS-Commander Command
-   * @param {ChatInputCommandInteraction} interaction - The Command Interaction from Discord
-   * @param {unknown} err 
+   * @param command - The DJS-Commander Command
+   * @param  interaction - The Command Interaction from Discord
+   * @param err - The error that was thrown
    */
   onCommandError: (command: Command, interaction: ChatInputCommandInteraction, err: unknown) => Awaitable<void>;
 }
