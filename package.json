@@ -4,16 +4,16 @@
   "description": "Command handler for discord.js",
   "type": "module",
   "author": "Rick-vm",
-  "private": true,
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Count-Bot/djs-commander/issues",
+    "email": "realcountbot@gmail.com"
+  },
+  "homepage": "https://github.com/Count-Bot/djs-commander#readme",
   "dependencies": {
     "@countbot/loggage": "^1.2.0",
     "discord.js": "^14.15.3"
   },
-  "bugs": {
-    "url": "https://github.com/Count-Bot/djs-commander/issues"
-  },
-  "homepage": "https://github.com/Count-Bot/djs-commander#readme",
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^8.56.0",
