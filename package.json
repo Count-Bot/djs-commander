@@ -39,7 +39,7 @@
     "build:ci": "tsc --noEmit",
     "format": "prettier --write . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --fix --format=pretty src",
     "lint": "prettier --check . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --format=pretty src",
-    "preinstall": "npm run build:node",
+    "prepare": "npm run build:node",
     "test:lcov": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info",
     "test:spec": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout"
   }
