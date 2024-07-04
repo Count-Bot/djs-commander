@@ -39,7 +39,7 @@
     }
   },
   "scripts": {
-    "build:node": "rm -rf build && tsc",
+    "build:node": "tsc",
     "build:ci": "tsc --noEmit",
     "format": "prettier --write . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --fix --format=pretty src",
     "lint": "prettier --check . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --format=pretty src",
