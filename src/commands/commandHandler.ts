@@ -167,7 +167,7 @@ export class CommandHandler {
       if (dirent.isDirectory()) {
         await this.loadCommands(path);
       } else if (dirent.isFile() && dirent.name.endsWith('.js')) {
-        const command = (await import('../../../../' + path)).default;
+        const command = (await import('../../../../../' + path)).default;
 
         if (!(command instanceof Command)) {
           throw new CommanderError('NOT_A_COMMAND', path);
