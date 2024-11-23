@@ -1,6 +1,6 @@
 {
   "name": "@countbot/djs-commander",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Command handler for discord.js",
   "type": "module",
   "author": "Rick-vm",
@@ -11,11 +11,11 @@
   },
   "homepage": "https://github.com/Count-Bot/djs-commander#readme",
   "dependencies": {
-    "@countbot/loggage": "^1.4.0",
-    "discord.js": "^14.16.1"
+    "@countbot/loggage": "^1.6.0",
+    "discord.js": "^14.16.3"
   },
   "devDependencies": {
-    "@types/node": "^20.14.9",
+    "@types/node": "^22.9.3",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "cross-env": "^7.0.3",
@@ -24,7 +24,7 @@
     "eslint-plugin-import": "^2.29.1",
     "prettier": "^3.3.2",
     "tsx": "^4.16.0",
-    "typescript": "^5.5.3",
+    "typescript": "^5.6.3",
     "typescript-eslint": "^7.15.0"
   },
   "files": [
