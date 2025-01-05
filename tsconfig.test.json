@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./build",
+    "sourceMap": false,
+    "inlineSourceMap": true
+  },
+  "include": ["./tests/**/*.ts", "./src/**/*.ts"]
+}
