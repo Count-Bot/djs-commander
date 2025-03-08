@@ -7,7 +7,7 @@
     "moduleResolution": "NodeNext",
     "baseUrl": "./src/",
     "sourceMap": true,
-    "outDir": "./build/src/",
+    "outDir": "./build/",
     "declaration": true,
     "removeComments": true,
     "isolatedModules": true,
