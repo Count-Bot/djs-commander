@@ -1,7 +1,11 @@
 import { AppCommandShape, AppCommandType } from '../models/AppCommandShape.js';
 import { CommandFn } from '../typings.js';
 
-export class Router<Args extends unknown[]> {
+/**
+ * The AppCommandRouter class is used to register and route commands for AppCommandHandler.
+ * @template Args The arguments that the command function will take
+ */
+export class AppCommandRouter<Args extends unknown[]> {
   private readonly _commands: [AppCommandShape, CommandFn<Args>][] = [];
 
   /**
@@ -20,6 +24,15 @@ export class Router<Args extends unknown[]> {
    */
   public command(commandData: AppCommandShape, command: CommandFn<Args>): void {
     this._commands.push([commandData, command]);
+  }
+
+  /**
+   * Merge another Router into this Router
+   * @param {AppCommandRouter} router The router to merge into this router
+   * @returns {void}
+   */
+  public merge(router: AppCommandRouter<Args>): void {
+    this._commands.push(...router._commands);
   }
 
   /**
