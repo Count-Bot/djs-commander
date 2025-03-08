@@ -36,13 +36,6 @@ export interface BaseChatInputOption {
   description: string;
 }
 
-export interface ChatInputSubCommandGroupOption {
-  type: AppCommandOptionType.SubCommandGroup;
-  name: string;
-  description: string;
-  options?: ChatInputSubCommandOption[];
-}
-
 export interface ChatInputSubCommandOption {
   type: AppCommandOptionType.SubCommand;
   name: string;
@@ -50,9 +43,11 @@ export interface ChatInputSubCommandOption {
   options?: BaseChatInputOption[];
 }
 
-export interface ChatInputStringOption extends BaseChatInputOption {
-  type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
+export interface ChatInputSubCommandGroupOption {
+  type: AppCommandOptionType.SubCommandGroup;
+  name: string;
+  description: string;
+  options?: ChatInputSubCommandOption[];
 }
 
 export interface AppCommandChoice {
@@ -72,27 +67,22 @@ export interface ChatInputIntegerOption extends BaseChatInputOption {
 
 export interface ChatInputBooleanOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
 export interface ChatInputUserOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
 export interface ChatInputChannelOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
-export interface ChatInputSRoleOption extends BaseChatInputOption {
+export interface ChatInputRoleOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
 export interface ChatInputMentionableOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
 export interface ChatInputNumberOption extends BaseChatInputOption {
@@ -102,7 +92,6 @@ export interface ChatInputNumberOption extends BaseChatInputOption {
 
 export interface ChatInputAttachmentOption extends BaseChatInputOption {
   type: AppCommandOptionType.String;
-  choices?: AppCommandChoice[];
 }
 
-export type ChatInputOption = BaseChatInputOption | ChatInputSubCommandGroupOption | ChatInputSubCommandOption;
+export type ChatInputOption = BaseChatInputOption | ChatInputSubCommandOption | ChatInputSubCommandGroupOption;

@@ -27,13 +27,12 @@
     "eslint-formatter-pretty": "^5.0.0",
     "eslint-plugin-import": "^2.31.0",
     "prettier": "^3.3.2",
-    "tsx": "^4.16.0",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.18.0"
   },
   "files": [
-    "src",
-    "build"
+    "build",
+    "src"
   ],
   "exports": {
     ".": {
@@ -44,14 +43,9 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "build:tests": "tsc --project tsconfig.test.json",
     "build:ci": "tsc --project tsconfig.build.json --noEmit",
     "format": "prettier --write . eslint --fix --format=pretty src",
     "lint": "prettier --check . eslint --format=pretty src",
-    "prepare": "npm run build",
-    "test:lcov": "node --import tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --experimental-strip-types --test-coverage-exclude=**/*.js",
-    "test:spec": "node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --experimental-strip-types --test-coverage-exclude=**/*.js",
-    "test:ci": "node --import tsx --test",
-    "test:local": "npm run build:tests && npm run test:spec && npm run test:lcov"
+    "prepare": "npm run build"
   }
 }

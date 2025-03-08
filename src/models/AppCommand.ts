@@ -1,5 +1,5 @@
 import { AppCommandShape } from './AppCommandShape.js';
-import { Awaitable } from '../util.js';
+import { Awaitable } from '../typings.js';
 
 export abstract class AppCommand<R = void> {
   private readonly shape: AppCommandShape;
