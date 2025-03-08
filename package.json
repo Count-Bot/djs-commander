@@ -1,9 +1,13 @@
 {
   "name": "@countbot/djs-commander",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "Command handler for discord.js",
   "type": "module",
-  "author": "Rick-vm",
+  "author": {
+    "email": "contact.luyx.llc@gmail.com",
+    "name": "Djs-Commander",
+    "url": "https://luyx.dev"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Count-Bot/djs-commander/issues",
@@ -12,24 +16,23 @@
   "homepage": "https://github.com/Count-Bot/djs-commander#readme",
   "dependencies": {
     "@countbot/loggage": "^1.6.0",
-    "discord.js": "^14.16.3"
+    "discord-api-types": "^0.37.114",
+    "ky": "^1.7.4",
+    "path": "^0.12.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.16.0",
     "@types/node": "^22.9.3",
-    "@typescript-eslint/eslint-plugin": "^7.15.0",
-    "@typescript-eslint/parser": "^7.15.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.16.0",
     "eslint-formatter-pretty": "^5.0.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.31.0",
     "prettier": "^3.3.2",
-    "tsx": "^4.16.0",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^7.15.0"
+    "typescript-eslint": "^8.18.0"
   },
   "files": [
-    "src",
-    "build"
+    "build",
+    "src"
   ],
   "exports": {
     ".": {
@@ -39,12 +42,10 @@
     }
   },
   "scripts": {
-    "build:node": "tsc",
-    "build:ci": "tsc --noEmit",
-    "format": "prettier --write . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --fix --format=pretty src",
-    "lint": "prettier --check . && cross-env ESLINT_USE_FLAT_CONFIG=false eslint --format=pretty src",
-    "prepare": "npm run build:node",
-    "test:lcov": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info",
-    "test:spec": "npm run build:node && node --import tsx --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout"
+    "build": "tsc --project tsconfig.build.json",
+    "build:ci": "tsc --project tsconfig.build.json --noEmit",
+    "format": "prettier --write . && eslint --fix --format=pretty src",
+    "lint": "prettier --check . && eslint --format=pretty src",
+    "prepare": "npm run build"
   }
 }
