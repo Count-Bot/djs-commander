@@ -4,9 +4,7 @@ import { Awaitable } from '../typings.js';
 export abstract class AppCommand<R = void> {
   private readonly shape: AppCommandShape;
 
-  constructor({
-    shape,
-  }: AppCommandParams) {
+  constructor({ shape }: AppCommandParams) {
     this.shape = shape;
   }
 

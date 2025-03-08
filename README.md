@@ -10,4 +10,3 @@ Command handler for discord.js
 - Command type (global/guild)
 - Command options/arguments/sub-commands
 - Listen for commands
-

@@ -5,16 +5,17 @@ export class Router<Args extends unknown[]> {
   private readonly _commands: [AppCommandShape, CommandFn<Args>][] = [];
 
   /**
-   * TODO: JAREN
+   * Get all command data
+   * @returns {readonly AppCommandShape[]}
    */
   public get commandData(): readonly AppCommandShape[] {
-    return this._commands.map(([commandData, _]) => commandData);
+    return this._commands.map(command => command[0]);
   }
 
   /**
    * Register a command
-   * @param {AppCommandShape} commandData  
-   * @param {CommandFn} command 
+   * @param {AppCommandShape} commandData
+   * @param {CommandFn} command
    * @returns {void}
    */
   public command(commandData: AppCommandShape, command: CommandFn<Args>): void {
@@ -25,11 +26,13 @@ export class Router<Args extends unknown[]> {
    * Get a command by name and type
    * @param {string} commandName
    * @param {AppCommandType} commandType
-   * 
+   *
    * @returns CommandHandler | null
    */
   public get(commandName: string, commandType: AppCommandType): CommandFn<Args> | null {
-    const command = this._commands.find(([commandData]) => commandData.name === commandName && commandData.type === commandType);
+    const command = this._commands.find(
+      ([commandData]) => commandData.name === commandName && commandData.type === commandType,
+    );
 
     return command?.[1] ?? null;
   }
