@@ -1,1 +1,1 @@
-export * from './Router.js';
+export * from './AppCommandRouter.js';
