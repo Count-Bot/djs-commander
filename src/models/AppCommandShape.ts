@@ -5,6 +5,7 @@ export enum AppCommandType {
 export interface BaseAppCommandShape {
   type: AppCommandType;
   name: string;
+  defaultMemberPermissions?: string | bigint | number | null | undefined;
 }
 
 export interface ChatInputAppCommandShape extends BaseAppCommandShape {
