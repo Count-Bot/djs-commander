@@ -1,6 +1,6 @@
 {
   "name": "@countbot/djs-commander",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Command handler for discord.js",
   "type": "module",
   "author": {
@@ -17,8 +17,7 @@
   "dependencies": {
     "@countbot/loggage": "^1.6.0",
     "discord-api-types": "^0.37.114",
-    "ky": "^1.7.4",
-    "path": "^0.12.7"
+    "ky": "^1.7.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
