@@ -4,13 +4,13 @@ import { CommandUpdateError, InvalidAppCommandError } from '../models/errors.js'
 import { AppCommandRouter } from '../router/AppCommandRouter.js';
 
 export interface APIAppCommandShape {
-  type: number,
-  name: string,
-  name_localizations?: Record<string, string>,
-  description: string,
-  description_localizations?: Record<string, string>,
-  default_member_permissions?: string,
-  options?: unknown[],
+  type: number;
+  name: string;
+  name_localizations?: Record<string, string>;
+  description: string;
+  description_localizations?: Record<string, string>;
+  default_member_permissions?: string;
+  options?: unknown[];
 }
 
 export interface AppCommandHandlerOptions {
