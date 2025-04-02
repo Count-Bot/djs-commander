@@ -5,12 +5,14 @@ export enum AppCommandType {
 export interface BaseAppCommandShape {
   type: AppCommandType;
   name: string;
-  defaultMemberPermissions?: string | bigint | number | null | undefined;
+  nameLocalizations?: Record<string, string>;
+  defaultMemberPermissions?: string;
 }
 
 export interface ChatInputAppCommandShape extends BaseAppCommandShape {
   type: AppCommandType.ChatInput;
   description: string;
+  descriptionLocalizations?: Record<string, string>;
   options?: ChatInputOption[];
 }
 
@@ -34,20 +36,26 @@ export enum AppCommandOptionType {
 export interface BaseChatInputOption {
   type: AppCommandOptionType;
   name: string;
+  nameLocalizations?: Record<string, string>;
   description: string;
+  descriptionLocalizations?: Record<string, string>;
 }
 
 export interface ChatInputSubCommandOption {
   type: AppCommandOptionType.SubCommand;
   name: string;
+  nameLocalizations?: Record<string, string>;
   description: string;
+  descriptionLocalizations?: Record<string, string>;
   options?: BaseChatInputOption[];
 }
 
 export interface ChatInputSubCommandGroupOption {
   type: AppCommandOptionType.SubCommandGroup;
   name: string;
+  nameLocalizations?: Record<string, string>;
   description: string;
+  descriptionLocalizations?: Record<string, string>;
   options?: ChatInputSubCommandOption[];
 }
 
