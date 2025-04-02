@@ -1,7 +1,17 @@
 import ky from 'ky';
-import { AppCommandType } from '../models/AppCommandShape.js';
+import { AppCommandShape, AppCommandType } from '../models/AppCommandShape.js';
 import { CommandUpdateError, InvalidAppCommandError } from '../models/errors.js';
 import { AppCommandRouter } from '../router/AppCommandRouter.js';
+
+export interface APIAppCommandShape {
+  type: number,
+  name: string,
+  name_localizations?: Record<string, string>,
+  description: string,
+  description_localizations?: Record<string, string>,
+  default_member_permissions?: string,
+  options?: unknown[],
+}
 
 export interface AppCommandHandlerOptions {
   /**
@@ -41,11 +51,32 @@ export class AppCommandHandler<Args extends unknown[]> {
     try {
       await ky.put(`https://discord.com/api/v10/applications/${this.clientId}/commands`, {
         headers: { Authorization: `Bot ${this.token}` },
-        json: this.router.commandData,
+        json: this.formatCommandData(this.router.commandData),
       });
     } catch (error) {
       throw new CommandUpdateError('Failed to overwrite commands:\n\t' + error);
     }
+  }
+
+  /**
+   * Format the command data in accordance with the Discord API
+   * @param commands The commands to format. This should be an array of AppCommandShape objects.
+   * @returns Formatted command data
+   */
+  private formatCommandData(commands: readonly AppCommandShape[]): APIAppCommandShape[] {
+    const formatted = commands.map(command => {
+      return {
+        name: command.name,
+        name_localizations: command.nameLocalizations,
+        description: command.description,
+        description_localizations: command.descriptionLocalizations,
+        default_member_permissions: command.defaultMemberPermissions,
+        type: command.type,
+        options: command.options,
+      };
+    });
+
+    return formatted;
   }
 
   /**
