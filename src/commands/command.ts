@@ -1,4 +1,4 @@
-import type { ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
+import type { CacheType, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 
 import {
   CommanderClient,
@@ -9,13 +9,13 @@ import {
   PermissionResponse,
 } from '../index.js';
 
-export class Command {
+export class Command<CT extends CacheType = CacheType> {
   public readonly category: string;
   public readonly data: Readonly<RESTPostAPIApplicationCommandsJSONBody>;
   public readonly mode: CommandMode;
   public readonly superUserOnly: boolean;
   public readonly ephemeral: boolean;
-  private readonly execute: CommandExecuteFn;
+  private readonly execute: CommandExecuteFn<CT>;
 
   constructor({ category, data, mode, superUserOnly, ephemeral, execute }: CommandOptions) {
     this.category = category;
@@ -30,7 +30,7 @@ export class Command {
    * Run the command. Be sure to evaluate the command type in client.on('interactionCreate')
    * @param {ChatInputCommandInteraction} interaction - The interaction from the interactionCreate event
    */
-  public async run(interaction: ChatInputCommandInteraction): Promise<void> {
+  public async run(interaction: ChatInputCommandInteraction<CT>): Promise<void> {
     await interaction.deferReply({
       ephemeral: this.ephemeral,
     });
