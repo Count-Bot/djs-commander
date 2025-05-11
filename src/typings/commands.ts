@@ -1,5 +1,5 @@
 import type { Loggage } from '@countbot/loggage';
-import { Awaitable, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody, Snowflake } from 'discord.js';
+import { Awaitable, CacheType, ChatInputCommandInteraction, RESTPostAPIApplicationCommandsJSONBody, Snowflake } from 'discord.js';
 
 import type { Command } from '../commands/index.js';
 import type { CommanderClient } from '../index.js';
@@ -41,7 +41,7 @@ export interface CommandHandlerOptions {
   logger: Loggage;
 }
 
-export type CommandExecuteFn = (interaction: ChatInputCommandInteraction) => Awaitable<void>;
+export type CommandExecuteFn<CT extends CacheType = CacheType> = (interaction: ChatInputCommandInteraction<CT>) => Awaitable<void>;
 
 export enum CommandMode {
   /**
