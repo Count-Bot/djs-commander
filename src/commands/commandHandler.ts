@@ -1,4 +1,4 @@
-import { readdirSync } from 'fs';
+import { Dirent, readdirSync } from 'fs';
 import { Loggage } from '@countbot/loggage';
 import {
   ChatInputCommandInteraction,
@@ -171,19 +171,36 @@ export class CommandHandler {
    */
   public async loadCommands(directory: string): Promise<void> {
     for (const dirent of readdirSync(directory, { withFileTypes: true })) {
-      const path = `${directory}/${dirent.name}`;
-
-      if (dirent.isDirectory()) {
-        await this.loadCommands(path);
-      } else if (dirent.isFile() && dirent.name.endsWith('.js')) {
-        const command = (await import(`../../../../../${path}`)).default;
-
-        if (!(command instanceof Command)) {
-          throw new CommanderError('NOT_A_COMMAND', path);
-        }
-
-        this.addCommand(command);
-      }
+      await this.processDirent(directory, dirent);
     }
+  }
+
+  /**
+   * Process a directory entry
+   * @param {string} directory - Directory path
+   * @param {Dirent} dirent - Directory entry
+   */
+  private async processDirent(directory: string, dirent: Dirent): Promise<void> {
+    const path = `${directory}/${dirent.name}`;
+
+    if (dirent.isDirectory()) {
+      await this.loadCommands(path);
+    } else if (dirent.isFile() && dirent.name.endsWith('.js')) {
+      await this.processCommandFile(path);
+    }
+  }
+
+  /**
+   * Process a command file
+   * @param {string} path - Path to the command file
+   */
+  private async processCommandFile(path: string): Promise<void> {
+    const command = (await import(`../../../../../${path}?update=${Date.now()}`)).default;
+
+    if (!(command instanceof Command)) {
+      throw new CommanderError('NOT_A_COMMAND', path);
+    }
+
+    this.addCommand(command);
   }
 }
