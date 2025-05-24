@@ -32,7 +32,7 @@ export class Command<CT extends CacheType = CacheType> {
    */
   public async run(interaction: ChatInputCommandInteraction<CT>): Promise<void> {
     await interaction.deferReply({
-      flags: this.ephemeral ? (1 << 6) : undefined,
+      flags: this.ephemeral ? 1 << 6 : undefined,
     });
 
     await this.execute(interaction);
