@@ -20,8 +20,8 @@ import {
 } from '../typings/index.js';
 
 export class CommandHandler {
+  public readonly commands: Map<string, Command>;
   private readonly client: CommanderClient;
-  private readonly commands: Map<string, Command>;
   private readonly _categories: Map<string, Command[]>;
   private readonly commandData: CommandHandlerCommandData;
   private readonly callbacks: Readonly<CommandHandlerCallbacks>;
