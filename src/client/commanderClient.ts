@@ -4,7 +4,7 @@ import { Client, ClientOptions, Snowflake } from 'discord.js';
 import { CommanderError } from '../error/index.js';
 import { CommanderClientOptions } from '../typings/index.js';
 
-export class CommanderClient extends Client {
+export class CommanderClient<Ready extends boolean = boolean> extends Client<Ready> {
   public readonly stagingGuilds: readonly Snowflake[];
   public readonly privateGuilds: readonly Snowflake[];
 
