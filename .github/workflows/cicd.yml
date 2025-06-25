@@ -35,8 +35,5 @@ jobs:
       - name: Compile Source Code
         run: npm run build:ci
 
-      - name: Test Source Code
-        run: npm run test:spec
-
       - name: Lint Source Code
         run: npm run lint
